@@ -6,6 +6,7 @@ import { Identification } from "./idGenerator";
 import Escalation from "./escalationGenerator";
 import Mail from "./mailGenerator";
 import Sms from "./smsGenerator";
+import Timer from "./timerGenerator";
 
 const identification = new Identification();
 
@@ -13,23 +14,31 @@ const escalation = new Escalation();
 
 const mail = new Mail();
 const sms = new Sms();
+const timer = new Timer();
 
 const alertingAdapter = new Alertgenerator(
   identification,
   escalation,
   mail,
-  sms
+  sms,
+  timer
 );
 
 describe("Alert Use Case with adaptors", () => {
-  let spy: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spyMail: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<never, never>;
 
   beforeAll(async () => {
-    spy = jest.fn();
-    spy = jest.spyOn(mail, "sendMail" as never);
+    spyMail = jest.fn();
+    spyMail = jest.spyOn(mail, "sendMail" as never);
+    spyTimer = jest.fn();
+    spyTimer = jest.spyOn(timer, "sendTimer" as never);
   });
 
-  afterEach(() => spy.mockRestore());
+  afterEach(() => {
+    spyMail.mockRestore();
+    spyTimer.mockRestore();
+  });
   it("should return a valid output", async () => {
     const alert: Alert = {
       serviceId: "service1",
@@ -43,7 +52,8 @@ describe("Alert Use Case with adaptors", () => {
       processed: true
     });
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spyMail).toHaveBeenCalledTimes(1);
+    expect(spyTimer).toHaveBeenCalledTimes(1);
   });
 
   it("should throw a missing message error ", async () => {

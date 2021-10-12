@@ -1,10 +1,16 @@
-import { Alert as AlertType, ProcessedAlert, Mail } from "../entities/types";
+import {
+  Alert as AlertType,
+  ProcessedAlert,
+  Mail,
+  Timer
+} from "../entities/types";
 import {
   AlertUseCase,
   ID,
   EscalationPort,
   MailPort,
-  SmsPort
+  SmsPort,
+  TimerPort
 } from "../entities/interfaces";
 
 abstract class Alert implements AlertUseCase {
@@ -12,18 +18,21 @@ abstract class Alert implements AlertUseCase {
   protected escalationAdapter: EscalationPort;
   protected mailAdapter: MailPort;
   protected smsAdapter: SmsPort;
+  protected timerAdapter: TimerPort;
 
   constructor(
     id: ID,
     escalationAdapter: EscalationPort,
     mailAdapter: MailPort,
-    smsAdapter: SmsPort
+    smsAdapter: SmsPort,
+    timerAdapter: TimerPort
   ) {
     console.log("@@@ consturctor in Alert UseCase");
     this.id = id;
     this.escalationAdapter = escalationAdapter;
     this.mailAdapter = mailAdapter;
     this.smsAdapter = smsAdapter;
+    this.timerAdapter = timerAdapter;
   }
 
   private async verifyAlert(event: AlertType): Promise<AlertType> {
@@ -74,7 +83,15 @@ abstract class Alert implements AlertUseCase {
       message: `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`
     };
 
+    const timer: Timer = {
+      alert: alert,
+      ep: escalation,
+      alertLevel: 0,
+      date: new Date()
+    };
+
     await this.mailAdapter.sendMail(email);
+    await this.timerAdapter.sendTimer(timer);
 
     return { id: alert.id, processed: true };
   }
