@@ -6,7 +6,6 @@ const data = {
   serviceId: "service1",
   levels: [
     {
-      level: 1,
       target: { email: ["pepon@pepon.com"] }
     }
   ]
