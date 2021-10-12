@@ -1,12 +1,18 @@
-import { MailPort, TimerInUseCase } from "../entities/interfaces";
+import {
+  MailPort,
+  TimerInUseCase,
+  PersistanceRepository
+} from "../entities/interfaces";
 import { Mail, Timer as TimerType, TimerTransResult } from "../entities/types/";
 
 class TimerIn implements TimerInUseCase {
   protected mailAdapter: MailPort;
+  protected persistanceRepo: PersistanceRepository;
 
-  constructor(mailAdapter: MailPort) {
+  constructor(mailAdapter: MailPort, persistanceRepo: PersistanceRepository) {
     console.log("@@@ constructor at TimerIn use case called");
     this.mailAdapter = mailAdapter;
+    this.persistanceRepo = persistanceRepo;
   }
 
   async getTimerEvent(timer: TimerType): Promise<TimerTransResult> {
@@ -27,6 +33,7 @@ class TimerIn implements TimerInUseCase {
         };
         await this.mailAdapter.sendMail(email);
       }
+      await this.persistanceRepo.storeAlert(timer);
       return true;
     }
     return false;

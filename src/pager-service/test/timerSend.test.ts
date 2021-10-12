@@ -3,6 +3,7 @@ import { Timer as TimerType } from "../entities/types";
 import TimerUseCase from "../use-cases/timer";
 
 const timerAdapter = new Timer();
+
 const timerUseCase = new TimerUseCase(timerAdapter);
 
 const timerEvent: TimerType = {

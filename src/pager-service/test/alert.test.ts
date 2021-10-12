@@ -7,6 +7,7 @@ import Escalation from "./escalationGenerator";
 import Mail from "./mailGenerator";
 import Sms from "./smsGenerator";
 import Timer from "./timerGenerator";
+import Persistance from "./persistanceGenerator";
 
 const identification = new Identification();
 
@@ -15,29 +16,35 @@ const escalation = new Escalation();
 const mail = new Mail();
 const sms = new Sms();
 const timer = new Timer();
+const persistance = new Persistance();
 
 const alertingAdapter = new Alertgenerator(
   identification,
   escalation,
   mail,
   sms,
-  timer
+  timer,
+  persistance
 );
 
 describe("Alert Use Case with adaptors", () => {
   let spyMail: jest.Mock<any, any> | jest.SpyInstance<never, never>;
   let spyTimer: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<never, never>;
 
   beforeAll(async () => {
     spyMail = jest.fn();
     spyMail = jest.spyOn(mail, "sendMail" as never);
     spyTimer = jest.fn();
     spyTimer = jest.spyOn(timer, "sendTimer" as never);
+    spyPersistance = jest.fn();
+    spyPersistance = jest.spyOn(persistance, "storeAlert" as never);
   });
 
   afterEach(() => {
     spyMail.mockRestore();
     spyTimer.mockRestore();
+    spyPersistance.mockRestore();
   });
   it("should return a valid output", async () => {
     const alert: Alert = {
@@ -54,6 +61,7 @@ describe("Alert Use Case with adaptors", () => {
 
     expect(spyMail).toHaveBeenCalledTimes(2);
     expect(spyTimer).toHaveBeenCalledTimes(1);
+    expect(spyPersistance).toHaveBeenCalledTimes(1);
   });
 
   it("should throw a missing message error ", async () => {

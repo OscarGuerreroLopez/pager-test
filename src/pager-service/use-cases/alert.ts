@@ -10,7 +10,8 @@ import {
   EscalationPort,
   MailPort,
   SmsPort,
-  TimerPort
+  TimerPort,
+  PersistanceRepository
 } from "../entities/interfaces";
 
 abstract class Alert implements AlertUseCase {
@@ -19,13 +20,15 @@ abstract class Alert implements AlertUseCase {
   protected mailAdapter: MailPort;
   protected smsAdapter: SmsPort;
   protected timerAdapter: TimerPort;
+  protected persistanceRepo: PersistanceRepository;
 
   constructor(
     id: ID,
     escalationAdapter: EscalationPort,
     mailAdapter: MailPort,
     smsAdapter: SmsPort,
-    timerAdapter: TimerPort
+    timerAdapter: TimerPort,
+    persistanceRepo: PersistanceRepository
   ) {
     console.log("@@@ consturctor in Alert UseCase");
     this.id = id;
@@ -33,6 +36,7 @@ abstract class Alert implements AlertUseCase {
     this.mailAdapter = mailAdapter;
     this.smsAdapter = smsAdapter;
     this.timerAdapter = timerAdapter;
+    this.persistanceRepo = persistanceRepo;
   }
 
   private async verifyAlert(event: AlertType): Promise<AlertType> {
@@ -84,8 +88,12 @@ abstract class Alert implements AlertUseCase {
       date: new Date()
     };
 
-    if (escalation.levels[0].target.email) {
-      for (const ep of escalation.levels[0].target.email) {
+    const isThereLevel = escalation.levels[0]?.target?.email || null;
+
+    console.log("@@@ isThereLevel", isThereLevel);
+
+    if (isThereLevel) {
+      for (const ep of isThereLevel) {
         console.log("@@@ ep", ep);
         const email: Mail = {
           to: ep,
@@ -94,11 +102,14 @@ abstract class Alert implements AlertUseCase {
         };
         await this.mailAdapter.sendMail(email);
       }
+      await this.timerAdapter.sendTimer(timer);
+
+      await this.persistanceRepo.storeAlert(timer);
+
+      return { id: alert.id, processed: true };
     }
 
-    await this.timerAdapter.sendTimer(timer);
-
-    return { id: alert.id, processed: true };
+    return { id: alert.id, processed: false };
   }
 }
 

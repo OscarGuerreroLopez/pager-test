@@ -13,7 +13,9 @@ class Timer implements TimerUseCase {
   async sendTimerNotification(event: TimerType): Promise<TimerTransResult> {
     console.log("@@@ sendTimerNotification in timer use case called", event);
 
-    return await this.timerService.sendTimer(event);
+    await this.timerService.sendTimer(event);
+
+    return true;
   }
 }
 
