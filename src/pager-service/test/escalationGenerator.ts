@@ -13,10 +13,13 @@ class EscalationPolicyAdapter implements EscalationPort {
       serviceId,
       levels: [
         {
-          target: { email: ["pepon@pepon.com"] }
+          target: { email: ["pepon@pepon.com", "cto@pepon.com"] }
         },
         {
-          target: { email: ["pepon@pepon.com"], sms: ["+1212345890"] }
+          target: {
+            email: ["cto@pepon.com", "bigboss@pepon.com"],
+            sms: ["+1212345890"]
+          }
         }
       ]
     };

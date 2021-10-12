@@ -52,7 +52,7 @@ describe("Alert Use Case with adaptors", () => {
       processed: true
     });
 
-    expect(spyMail).toHaveBeenCalledTimes(1);
+    expect(spyMail).toHaveBeenCalledTimes(2);
     expect(spyTimer).toHaveBeenCalledTimes(1);
   });
 

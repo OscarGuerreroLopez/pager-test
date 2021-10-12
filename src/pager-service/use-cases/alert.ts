@@ -77,12 +77,6 @@ abstract class Alert implements AlertUseCase {
 
     const verifiedAlert = await this.verifyAlert(alert);
 
-    const email: Mail = {
-      to: "user@user.com",
-      from: "system@system.com",
-      message: `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`
-    };
-
     const timer: Timer = {
       alert: alert,
       ep: escalation,
@@ -90,7 +84,18 @@ abstract class Alert implements AlertUseCase {
       date: new Date()
     };
 
-    await this.mailAdapter.sendMail(email);
+    if (escalation.levels[0].target.email) {
+      for (const ep of escalation.levels[0].target.email) {
+        console.log("@@@ ep", ep);
+        const email: Mail = {
+          to: ep,
+          from: "system@system.com",
+          message: `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`
+        };
+        await this.mailAdapter.sendMail(email);
+      }
+    }
+
     await this.timerAdapter.sendTimer(timer);
 
     return { id: alert.id, processed: true };
