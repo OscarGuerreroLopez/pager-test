@@ -66,7 +66,7 @@ abstract class Alert implements AlertUseCase {
     const verifiedAlert = await this.verifyAlert(alert);
 
     const email: Mail = {
-      to: "shit@shit.com",
+      to: "user@user.com",
       from: "system@system.com",
       message: `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`
     };
