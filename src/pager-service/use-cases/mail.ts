@@ -1,7 +1,7 @@
 import { Mail as MailType, MailTransResult } from "../entities/types";
 import { MailUseCase, MailPort } from "../entities/interfaces";
 
-abstract class Mail implements MailUseCase {
+class Mail implements MailUseCase {
   protected mailService: MailPort;
 
   constructor(mailService: MailPort) {
