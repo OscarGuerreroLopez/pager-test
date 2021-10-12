@@ -20,7 +20,6 @@ const repo = {
         serviceId,
         levels: [
           {
-            level: 1,
             target: { email: ["pepon@pepon.com"] }
           }
         ]

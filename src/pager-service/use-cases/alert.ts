@@ -61,7 +61,10 @@ abstract class Alert implements AlertUseCase {
     const escalation = await this.escalationAdapter.getEscalation(
       alert.serviceId
     );
-    console.log("@@@ escalation in newAlert in Alert UseCase", escalation);
+    console.log(
+      "@@@ escalation in newAlert in Alert UseCase",
+      escalation.levels[0]
+    );
 
     const verifiedAlert = await this.verifyAlert(alert);
 

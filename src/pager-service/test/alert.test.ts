@@ -69,7 +69,7 @@ describe("Alert Use Case with adaptors", () => {
   it("should throw a missing service error ", async () => {
     const alert: Alert = {
       serviceId: "",
-      message: "Something really fucked up happened",
+      message: "Something really bad happened",
       status: "unhealthy"
     };
     try {

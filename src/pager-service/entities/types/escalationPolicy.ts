@@ -4,4 +4,4 @@ export type EscalationPolicy = {
   levels: level[];
 };
 
-type level = { level: number; target: { email?: string[]; sms?: string[] } };
+type level = { target: { email?: string[]; sms?: string[] } };
