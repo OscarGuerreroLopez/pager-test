@@ -13,7 +13,9 @@ class TimerIn implements TimerInUseCase {
     console.log("@@@ getTimerEvent at TimerIn use case", timer);
 
     const isThereMoreLevels =
-      timer.ep.levels[timer.alertLevel].target.email || null;
+      timer.ep.levels[timer.alertLevel]?.target?.email || null;
+
+    console.log("@@@ isThereMoreLevels", isThereMoreLevels);
 
     if (isThereMoreLevels) {
       for (const ep of isThereMoreLevels) {
@@ -25,9 +27,9 @@ class TimerIn implements TimerInUseCase {
         };
         await this.mailAdapter.sendMail(email);
       }
+      return true;
     }
-
-    return true;
+    return false;
   }
 }
 
