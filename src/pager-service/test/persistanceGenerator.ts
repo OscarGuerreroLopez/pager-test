@@ -1,5 +1,5 @@
 import { PersistanceRepository } from "../entities/interfaces";
-import { Timer } from "../entities/types";
+import { ServiceStatus, Timer } from "../entities/types";
 
 class PersistanceAdapter implements PersistanceRepository {
   constructor() {
@@ -8,6 +8,12 @@ class PersistanceAdapter implements PersistanceRepository {
 
   async storeAlert(pager: Timer): Promise<boolean> {
     console.log("@@@ storeAlert at PersistanceAdapter", pager);
+
+    return true;
+  }
+
+  async resetAlert(alertId: string, status: ServiceStatus): Promise<boolean> {
+    console.log("@@@ resetAlert at PersistanceAdapter", alertId, status);
 
     return true;
   }
