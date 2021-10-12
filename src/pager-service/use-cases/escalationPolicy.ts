@@ -4,7 +4,7 @@ import {
 } from "../entities/interfaces";
 import { EscalationPolicy as EPResult } from "../entities/types";
 
-abstract class EscalationPolicy implements EscalationUseCase {
+class EscalationPolicy implements EscalationUseCase {
   protected repository: EscalationRepository;
 
   constructor(repository: EscalationRepository) {
