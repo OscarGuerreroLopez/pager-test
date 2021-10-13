@@ -9,8 +9,6 @@ abstract class Sms implements SmsUseCase {
   }
 
   private async verifySms(event: SmsType): Promise<SmsType> {
-    console.log("@@@  verifying the sms at the use case");
-
     if (!event.to) {
       throw new Error("Missing to from sms");
     }

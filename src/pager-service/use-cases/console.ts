@@ -17,8 +17,6 @@ class Console implements ConsoleUseCase {
   async setAlertNotification(
     notification: ConsoleNotification
   ): Promise<boolean> {
-    console.log("@@@ setAlertNotification at console usecase", notification);
-
     const resetAlert = await this.persistanceRepo.resetAlert(
       notification.alertId,
       notification.status

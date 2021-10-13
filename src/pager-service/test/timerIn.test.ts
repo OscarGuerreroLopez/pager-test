@@ -1,6 +1,7 @@
 import { Timer as TimerType } from "../entities/types";
 import TimerInUseCase from "../use-cases/timerIn";
 import Mail from "./mailGenerator";
+import Sms from "./smsGenerator";
 import Persistance from "./persistanceGenerator";
 
 const timerEvent: TimerType = {
@@ -52,9 +53,10 @@ const timerEventWithOneLevel: TimerType = {
 };
 
 const mail = new Mail();
+const sms = new Sms();
 const persistanceAdapter = new Persistance();
 
-const timerInUseCase = new TimerInUseCase(mail, persistanceAdapter);
+const timerInUseCase = new TimerInUseCase(mail, sms, persistanceAdapter);
 
 describe("TimerInUseCase", () => {
   let spy: jest.Mock<any, any> | jest.SpyInstance<never, never>;

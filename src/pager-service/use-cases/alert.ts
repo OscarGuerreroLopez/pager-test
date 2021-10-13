@@ -1,9 +1,4 @@
-import {
-  Alert as AlertType,
-  ProcessedAlert,
-  Mail,
-  Timer
-} from "../entities/types";
+import { Alert as AlertType, ProcessedAlert, Timer } from "../entities/types";
 import {
   AlertUseCase,
   ID,
@@ -13,6 +8,8 @@ import {
   TimerPort,
   PersistanceRepository
 } from "../entities/interfaces";
+
+import { MailSender, SmsSender } from "../common";
 
 abstract class Alert implements AlertUseCase {
   protected id: ID;
@@ -30,7 +27,6 @@ abstract class Alert implements AlertUseCase {
     timerAdapter: TimerPort,
     persistanceRepo: PersistanceRepository
   ) {
-    console.log("@@@ consturctor in Alert UseCase");
     this.id = id;
     this.escalationAdapter = escalationAdapter;
     this.mailAdapter = mailAdapter;
@@ -40,8 +36,6 @@ abstract class Alert implements AlertUseCase {
   }
 
   private async verifyAlert(event: AlertType): Promise<AlertType> {
-    console.log("@@@ AlertUseCase verifying alert at the use case");
-
     if (!event.message) {
       throw new Error("Missing message from alert");
     }
@@ -60,48 +54,39 @@ abstract class Alert implements AlertUseCase {
 
     event.message = `***${event.message}***`;
 
-    console.log(
-      "@@@ Modifying alert inside verifyAlert in alertUseCase",
-      event
-    );
-
     return event;
   }
 
   async newAlert(alert: AlertType): Promise<ProcessedAlert> {
-    console.log("@@@ newAlert in Alert UseCase", alert);
     alert.id = this.id.makeId();
     const escalation = await this.escalationAdapter.getEscalation(
       alert.serviceId
     );
-    console.log(
-      "@@@ escalation in newAlert in Alert UseCase",
-      escalation.levels[0]
-    );
 
     const verifiedAlert = await this.verifyAlert(alert);
 
-    const timer: Timer = {
-      alert: alert,
-      ep: escalation,
-      alertLevel: 0,
-      date: new Date()
-    };
+    const areThereLevels = escalation.levels[0] && escalation.levels[0].target;
 
-    const isThereLevel = escalation.levels[0]?.target?.email || null;
+    if (areThereLevels) {
+      const isThereMailLevel = escalation.levels[0]?.target?.email || null;
+      const isThereSmsLevel = escalation.levels[0]?.target?.sms || null;
+      const message = `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`;
 
-    console.log("@@@ isThereLevel", isThereLevel);
-
-    if (isThereLevel) {
-      for (const ep of isThereLevel) {
-        console.log("@@@ ep", ep);
-        const email: Mail = {
-          to: ep,
-          from: "system@system.com",
-          message: `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`
-        };
-        await this.mailAdapter.sendMail(email);
+      if (isThereMailLevel) {
+        await MailSender(this.mailAdapter.sendMail, isThereMailLevel, message);
       }
+
+      if (isThereSmsLevel) {
+        await SmsSender(this.smsAdapter.sendSms, isThereSmsLevel, message);
+      }
+
+      const timer: Timer = {
+        alert: alert,
+        ep: escalation,
+        alertLevel: 0,
+        date: new Date()
+      };
+
       await this.timerAdapter.sendTimer(timer);
 
       await this.persistanceRepo.storeAlert(timer);

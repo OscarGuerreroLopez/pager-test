@@ -12,8 +12,6 @@ class Persistance implements PersistanceUseCase {
   }
 
   async sendAlertNotification(pager: Timer): Promise<boolean> {
-    console.log("@@@ sendAlertNotification in Persitance Use Case");
-
     return await this.persistanceRepository.storeAlert(pager);
   }
 }

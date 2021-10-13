@@ -5,14 +5,10 @@ class Timer implements TimerUseCase {
   protected timerService: TimerPort;
 
   constructor(timerService: TimerPort) {
-    console.log("@@@ constructor in timer use case");
-
     this.timerService = timerService;
   }
 
   async sendTimerNotification(event: TimerType): Promise<TimerTransResult> {
-    console.log("@@@ sendTimerNotification in timer use case called", event);
-
     await this.timerService.sendTimer(event);
 
     return true;

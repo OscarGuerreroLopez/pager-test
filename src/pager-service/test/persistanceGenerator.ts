@@ -2,18 +2,21 @@ import { PersistanceRepository } from "../entities/interfaces";
 import { ServiceStatus, Timer } from "../entities/types";
 
 class PersistanceAdapter implements PersistanceRepository {
-  constructor() {
-    console.log("@@@ PersistanceAdapter constructor");
-  }
-
   async storeAlert(pager: Timer): Promise<boolean> {
-    console.log("@@@ storeAlert at PersistanceAdapter", pager);
+    console.log(
+      "Fake implementation of a persistance adapter. This will store in the db",
+      pager
+    );
 
     return true;
   }
 
   async resetAlert(alertId: string, status: ServiceStatus): Promise<boolean> {
-    console.log("@@@ resetAlert at PersistanceAdapter", alertId, status);
+    console.log(
+      "Fake implementation of a persistance adapter. this would reset an alert in case an engineer mark it as healthy ",
+      alertId,
+      status
+    );
 
     return true;
   }

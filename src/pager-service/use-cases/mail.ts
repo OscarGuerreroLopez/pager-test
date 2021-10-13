@@ -9,10 +9,6 @@ class Mail implements MailUseCase {
   }
 
   private async verifiedEmail(event: MailType): Promise<MailType> {
-    console.log(
-      "@@@ EmailNotificationuseCase verifying the email at the use case"
-    );
-
     if (!event.to) {
       throw new Error("Missing to from email");
     }

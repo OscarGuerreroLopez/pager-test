@@ -1,6 +1,6 @@
 import Timer from "./timerGenerator";
 import { Timer as TimerType } from "../entities/types";
-import TimerUseCase from "../use-cases/timer";
+import TimerUseCase from "../use-cases/timerOut";
 
 const timerAdapter = new Timer();
 

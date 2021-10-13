@@ -6,8 +6,6 @@ class ConsoleAdapter extends ConsoleUseCase implements ConsolePort {
   async receiveNewNotification(
     notification: ConsoleNotification
   ): Promise<boolean> {
-    console.log("@@@ receiveNewNotification in ConsoleAdapter ");
-
     const createdNotification = await this.setAlertNotification(notification);
 
     return createdNotification;
