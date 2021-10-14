@@ -1,4 +1,4 @@
-import { ServiceStatus } from "./alert";
+import { ServiceStatus } from "../../alert/entities/types";
 
 export type ConsoleNotification = {
   serviceId: string;

@@ -1,6 +1,6 @@
-import { Alert, ProcessedAlert } from "../entities/types";
-import AlertUseCase from "../use-cases/alert";
-import { AlertPort } from "../entities/interfaces";
+import { Alert, ProcessedAlert } from "../alert/entities/types";
+import AlertUseCase from "../alert";
+import { AlertPort } from "../alert/entities/interfaces";
 
 class AlertingAdapter extends AlertUseCase implements AlertPort {
   async receiveNewAlert(alert: Alert): Promise<ProcessedAlert> {

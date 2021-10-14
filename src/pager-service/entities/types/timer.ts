@@ -1,4 +1,4 @@
-import { Alert } from "./alert";
+import { Alert } from "../../alert/entities/types";
 import { EscalationPolicy } from "./escalationPolicy";
 
 export type Timer = {

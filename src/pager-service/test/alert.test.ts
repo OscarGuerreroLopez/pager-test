@@ -1,6 +1,6 @@
 import Alertgenerator from "./alertGenerator";
 
-import { Alert } from "../entities/types";
+import { Alert } from "../alert/entities/types";
 
 import { Identification } from "./idGenerator";
 import Escalation from "./escalationGenerator";
