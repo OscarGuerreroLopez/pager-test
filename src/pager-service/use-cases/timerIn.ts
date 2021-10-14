@@ -1,10 +1,10 @@
-import {
-  SmsPort,
-  TimerInUseCase,
-  PersistanceRepository
-} from "../entities/interfaces";
+import { SmsPort, TimerInUseCase } from "../entities/interfaces";
 import { MailPort } from "../mail/entities/interfaces";
-import { Timer as TimerType, TimerTransResult } from "../entities/types/";
+import { PersistanceRepository } from "../persistance/entities/interfaces";
+import {
+  Timer as TimerType,
+  TimerTransResult
+} from "../../pager-service/entities/types";
 
 import { MailSender, SmsSender } from "../common";
 

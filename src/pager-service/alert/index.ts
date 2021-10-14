@@ -4,13 +4,14 @@ import { AlertUseCase } from "./entities/interfaces";
 import {
   ID,
   SmsPort,
-  TimerPort,
-  PersistanceRepository
+  TimerPort
 } from "../../pager-service/entities/interfaces";
 
 import { MailPort } from "../mail/entities/interfaces";
 
 import { EscalationPort } from "../escalation/entities/interfaces";
+
+import { PersistanceRepository } from "../persistance/entities/interfaces";
 
 import { MailSender, SmsSender } from "../common";
 import { VerifyAlert } from "./verifyAlert";

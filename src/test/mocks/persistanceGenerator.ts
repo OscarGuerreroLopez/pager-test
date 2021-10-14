@@ -1,4 +1,4 @@
-import { PersistanceRepository } from "../../pager-service/entities/interfaces";
+import { PersistanceRepository } from "../../pager-service/persistance/entities/interfaces";
 import { Timer } from "../../pager-service/entities/types";
 import { ServiceStatus } from "../../pager-service/alert/entities/types";
 

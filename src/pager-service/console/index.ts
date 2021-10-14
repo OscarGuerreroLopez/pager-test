@@ -1,6 +1,7 @@
-import { TimerPort, PersistanceRepository } from "../entities/interfaces";
+import { TimerPort } from "../entities/interfaces";
 import { ConsoleUseCase } from "../console/entities/interfaces";
 import { ConsoleNotification } from "../console/entities/types";
+import { PersistanceRepository } from "../persistance/entities/interfaces";
 
 class Console implements ConsoleUseCase {
   protected persistanceRepo: PersistanceRepository;

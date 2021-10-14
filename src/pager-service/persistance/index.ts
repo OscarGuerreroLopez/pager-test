@@ -2,7 +2,7 @@ import { Timer } from "../entities/types";
 import {
   PersistanceUseCase,
   PersistanceRepository
-} from "../entities/interfaces";
+} from "./entities/interfaces";
 
 class Persistance implements PersistanceUseCase {
   protected persistanceRepository: PersistanceRepository;
