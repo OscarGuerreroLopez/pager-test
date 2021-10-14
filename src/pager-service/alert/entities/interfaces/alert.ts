@@ -5,5 +5,5 @@ export interface AlertUseCase {
 }
 
 export interface AlertPort {
-  receiveNewAlert(alert: Alert): Promise<ProcessedAlert>;
+  processNewAlert(alert: Alert): Promise<ProcessedAlert>;
 }

@@ -1,7 +1,7 @@
-import { Timer as TimerType, TimerTransResult } from "./entities/types";
+import { TimerOut as TimerType, TimerTransResult } from "./entities/types";
 import { TimerPort, TimerUseCase } from "./entities/interfaces";
 
-class Timer implements TimerUseCase {
+class TimerOut implements TimerUseCase {
   protected timerService: TimerPort;
 
   constructor(timerService: TimerPort) {
@@ -15,4 +15,4 @@ class Timer implements TimerUseCase {
   }
 }
 
-export default Timer;
+export default TimerOut;

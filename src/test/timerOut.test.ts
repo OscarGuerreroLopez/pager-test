@@ -1,5 +1,5 @@
-import Timer from "./mocks/timerGenerator";
-import { Timer as TimerType } from "../pager-service/timer/entities/types";
+import Timer from "./mocks/timerOutAdapter";
+import { TimerOut as TimerType } from "../pager-service/timer/entities/types";
 import TimerUseCase from "../pager-service/timer/timerOut";
 
 const timerAdapter = new Timer();
@@ -29,7 +29,8 @@ const timerEvent: TimerType = {
     ]
   },
   alertLevel: 0,
-  date: new Date()
+  date: new Date(),
+  delay: 900000
 };
 
 describe("Timer Use Case test", () => {

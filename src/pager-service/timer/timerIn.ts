@@ -2,7 +2,7 @@ import { TimerInUseCase } from "./entities/interfaces";
 import { SmsPort } from "../sms/entities/interfaces";
 import { MailPort } from "../mail/entities/interfaces";
 import { PersistanceRepository } from "../persistance/entities/interfaces";
-import { Timer as TimerType, TimerTransResult } from "./entities/types";
+import { TimerIn as TimerType, TimerTransResult } from "./entities/types";
 
 import { MailSender, SmsSender } from "../common";
 
@@ -23,8 +23,11 @@ class TimerIn implements TimerInUseCase {
 
   async getTimerEvent(timer: TimerType): Promise<TimerTransResult> {
     const areThereLevels = timer.ep.levels[timer.alertLevel]?.target || null;
+    console.log("@@@ timer", timer);
 
-    if (areThereLevels) {
+    const isServiceStillUnhealthy = timer.alert.status === "unhealthy";
+
+    if (areThereLevels && timer.alert.id && isServiceStillUnhealthy) {
       const isThereMailLevel =
         timer.ep.levels[timer.alertLevel].target.email || null;
       const isThereSmsLevel =
@@ -39,7 +42,7 @@ class TimerIn implements TimerInUseCase {
         await SmsSender(this.smsAdapter.sendSms, isThereSmsLevel, message);
       }
 
-      await this.persistanceRepo.storeAlert(timer);
+      await this.persistanceRepo.updateAlert(timer.alert.id, timer.alertLevel);
       return true;
     }
 

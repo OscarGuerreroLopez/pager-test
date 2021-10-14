@@ -1,4 +1,4 @@
-import Mail from "./mocks/mailGenerator";
+import Mail from "./mocks/mailAdapter";
 import { Mail as MailType } from "../pager-service/mail/entities/types";
 import MailUseCase from "../pager-service/mail";
 

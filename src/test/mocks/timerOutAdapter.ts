@@ -1,12 +1,12 @@
 import { TimerPort } from "../../pager-service/timer/entities/interfaces";
 import {
-  Timer,
+  TimerOut,
   TimerTransResult
 } from "../../pager-service/timer/entities/types";
 import { ServiceStatus } from "../../pager-service/alert/entities/types";
 
 class TimerAdapter implements TimerPort {
-  async sendTimer(timer: Timer): Promise<TimerTransResult> {
+  async sendTimer(timer: TimerOut): Promise<TimerTransResult> {
     console.log("Fake implementation of the timer outbound adapter", timer);
     return true;
   }

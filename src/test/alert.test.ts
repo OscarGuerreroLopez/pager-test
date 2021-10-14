@@ -1,13 +1,11 @@
-import Alertgenerator from "./mocks/alertGenerator";
-
-import { Alert } from "../pager-service/alert/entities/types";
-
+import Alertgenerator from "./mocks/alertAdapter";
 import { Identification } from "./mocks/idGenerator";
-import Escalation from "./mocks/escalationGenerator";
-import Mail from "./mocks/mailGenerator";
-import Sms from "./mocks/smsGenerator";
-import Timer from "./mocks/timerGenerator";
-import Persistance from "./mocks/persistanceGenerator";
+import Escalation from "./mocks/escalationAdapter";
+import Mail from "./mocks/mailAdapter";
+import Sms from "./mocks/smsAdapter";
+import Timer from "./mocks/timerOutAdapter";
+import Persistance from "./mocks/persistanceAdapter";
+import { Alert } from "../pager-service/alert/entities/types";
 
 const identification = new Identification();
 
@@ -27,7 +25,7 @@ const alertingAdapter = new Alertgenerator(
   persistance
 );
 
-describe("Alert Use Case with adaptors", () => {
+describe("Alert Use Case with adapters", () => {
   let spyMail: jest.Mock<any, any> | jest.SpyInstance<never, never>;
   let spyTimer: jest.Mock<any, any> | jest.SpyInstance<never, never>;
   let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<never, never>;
@@ -46,13 +44,16 @@ describe("Alert Use Case with adaptors", () => {
     spyTimer.mockRestore();
     spyPersistance.mockRestore();
   });
-  it("should return a valid output", async () => {
+  it(`Given a Monitored Service in a Healthy State,
+  when the Pager receives an Alert related to this Monitored Service,
+  then the Monitored Service becomes Unhealthy, the Pager notifies all targets of the first level of the escalation policy,
+  and sets a 15-minutes acknowledgement delay`, async () => {
     const alert: Alert = {
       serviceId: "service1",
       message: "Something really bad happened",
       status: "unhealthy"
     };
-    const result = await alertingAdapter.receiveNewAlert(alert);
+    const result = await alertingAdapter.processNewAlert(alert);
 
     expect(result).toStrictEqual({
       id: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
@@ -71,7 +72,7 @@ describe("Alert Use Case with adaptors", () => {
       status: "unhealthy"
     };
     try {
-      await alertingAdapter.receiveNewAlert(alert);
+      await alertingAdapter.processNewAlert(alert);
     } catch (error) {
       let message = "";
 
@@ -91,7 +92,7 @@ describe("Alert Use Case with adaptors", () => {
       status: "unhealthy"
     };
     try {
-      await alertingAdapter.receiveNewAlert(alert);
+      await alertingAdapter.processNewAlert(alert);
     } catch (error) {
       let message = "";
 

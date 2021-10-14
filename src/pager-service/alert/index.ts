@@ -1,5 +1,5 @@
 import { Alert as AlertType, ProcessedAlert } from "./entities/types";
-import { Timer } from "../timer/entities/types";
+import { TimerOut } from "../timer/entities/types";
 import { AlertUseCase } from "./entities/interfaces";
 import { ID } from "../../pager-service/utils";
 
@@ -65,16 +65,17 @@ abstract class Alert implements AlertUseCase {
         await SmsSender(this.smsAdapter.sendSms, isThereSmsLevel, message);
       }
 
-      const timer: Timer = {
+      const timer: TimerOut = {
         alert: alert,
         ep: escalation,
-        alertLevel: 0,
-        date: new Date()
+        alertLevel: 0, // since this service receives the alerts from the services, it will always be the first one
+        date: new Date(),
+        delay: 900000
       };
 
-      await this.timerAdapter.sendTimer(timer);
+      await this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
 
-      await this.persistanceRepo.storeAlert(timer);
+      await this.persistanceRepo.storeAlert(timer); // we are keeping the alert in our storage for later analysis
 
       return { id: alert.id, processed: true };
     }
