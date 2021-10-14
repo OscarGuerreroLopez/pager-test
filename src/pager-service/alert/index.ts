@@ -3,11 +3,12 @@ import { Timer } from "../entities/types";
 import { AlertUseCase } from "./entities/interfaces";
 import {
   ID,
-  MailPort,
   SmsPort,
   TimerPort,
   PersistanceRepository
 } from "../../pager-service/entities/interfaces";
+
+import { MailPort } from "../mail/entities/interfaces";
 
 import { EscalationPort } from "../escalation/entities/interfaces";
 

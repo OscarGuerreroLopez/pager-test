@@ -1,9 +1,9 @@
 import {
-  MailPort,
   SmsPort,
   TimerInUseCase,
   PersistanceRepository
 } from "../entities/interfaces";
+import { MailPort } from "../mail/entities/interfaces";
 import { Timer as TimerType, TimerTransResult } from "../entities/types/";
 
 import { MailSender, SmsSender } from "../common";

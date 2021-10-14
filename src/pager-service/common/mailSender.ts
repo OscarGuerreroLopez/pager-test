@@ -1,4 +1,4 @@
-import { Mail } from "../entities/types";
+import { Mail } from "../mail/entities/types";
 
 export const MailSender = async (
   mailSender: (mail: Mail) => Promise<boolean>,

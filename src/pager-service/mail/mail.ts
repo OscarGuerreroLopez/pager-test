@@ -1,5 +1,5 @@
-import { Mail as MailType, MailTransResult } from "../entities/types";
-import { MailUseCase, MailPort } from "../entities/interfaces";
+import { Mail as MailType, MailTransResult } from "./entities/types";
+import { MailUseCase, MailPort } from "./entities/interfaces";
 
 class Mail implements MailUseCase {
   protected mailService: MailPort;
