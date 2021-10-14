@@ -1,4 +1,4 @@
-import { Sms } from "../entities/types";
+import { Sms } from "../sms/entities/types";
 
 export const SmsSender = async (
   smsSender: (sms: Sms) => Promise<boolean>,

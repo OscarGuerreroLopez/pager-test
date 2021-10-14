@@ -1,5 +1,5 @@
-import { Sms as SmsType, SmsTransResult } from "../entities/types";
-import { SmsUseCase, SmsPort } from "../entities/interfaces";
+import { Sms as SmsType, SmsTransResult } from "./entities/types";
+import { SmsUseCase, SmsPort } from "./entities/interfaces";
 
 abstract class Sms implements SmsUseCase {
   protected smsService: SmsPort;

@@ -1,4 +1,5 @@
-import { SmsPort, TimerInUseCase } from "../entities/interfaces";
+import { TimerInUseCase } from "../entities/interfaces";
+import { SmsPort } from "../sms/entities/interfaces";
 import { MailPort } from "../mail/entities/interfaces";
 import { PersistanceRepository } from "../persistance/entities/interfaces";
 import {
