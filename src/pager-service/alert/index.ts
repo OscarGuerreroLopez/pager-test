@@ -1,9 +1,10 @@
 import { Alert as AlertType, ProcessedAlert } from "./entities/types";
-import { Timer } from "../entities/types";
+import { Timer } from "../timer/entities/types";
 import { AlertUseCase } from "./entities/interfaces";
-import { ID, TimerPort } from "../../pager-service/entities/interfaces";
+import { ID } from "../../pager-service/utils";
 
 import { MailPort } from "../mail/entities/interfaces";
+import { TimerPort } from "../timer/entities/interfaces";
 
 import { EscalationPort } from "../escalation/entities/interfaces";
 

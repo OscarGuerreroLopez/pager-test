@@ -1,5 +1,5 @@
-import { Timer as TimerType } from "../pager-service/entities/types";
-import TimerInUseCase from "../pager-service/use-cases/timerIn";
+import { Timer as TimerType } from "../pager-service/timer/entities/types";
+import TimerInUseCase from "../pager-service/timer/timerIn";
 import Mail from "./mocks/mailGenerator";
 import Sms from "./mocks/smsGenerator";
 import Persistance from "./mocks/persistanceGenerator";

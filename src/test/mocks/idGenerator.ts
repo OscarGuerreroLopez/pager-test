@@ -1,4 +1,4 @@
-import { ID } from "../../pager-service/entities/interfaces";
+import { ID } from "../../pager-service/utils";
 
 export class Identification implements ID {
   makeId(): string {

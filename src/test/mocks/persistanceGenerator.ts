@@ -1,5 +1,5 @@
 import { PersistanceRepository } from "../../pager-service/persistance/entities/interfaces";
-import { Timer } from "../../pager-service/entities/types";
+import { Timer } from "../../pager-service/timer/entities/types";
 import { ServiceStatus } from "../../pager-service/alert/entities/types";
 
 class PersistanceAdapter implements PersistanceRepository {

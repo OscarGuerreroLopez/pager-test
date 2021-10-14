@@ -1,5 +1,5 @@
-import { Timer as TimerType, TimerTransResult } from "../entities/types";
-import { TimerPort, TimerUseCase } from "../entities/interfaces";
+import { Timer as TimerType, TimerTransResult } from "./entities/types";
+import { TimerPort, TimerUseCase } from "./entities/interfaces";
 
 class Timer implements TimerUseCase {
   protected timerService: TimerPort;

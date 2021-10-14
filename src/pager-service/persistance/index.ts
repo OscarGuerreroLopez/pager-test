@@ -1,4 +1,4 @@
-import { Timer } from "../entities/types";
+import { Timer } from "../timer/entities/types";
 import {
   PersistanceUseCase,
   PersistanceRepository

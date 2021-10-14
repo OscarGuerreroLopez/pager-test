@@ -1,6 +1,6 @@
 import Timer from "./mocks/timerGenerator";
-import { Timer as TimerType } from "../pager-service/entities/types";
-import TimerUseCase from "../pager-service/use-cases/timerOut";
+import { Timer as TimerType } from "../pager-service/timer/entities/types";
+import TimerUseCase from "../pager-service/timer/timerOut";
 
 const timerAdapter = new Timer();
 

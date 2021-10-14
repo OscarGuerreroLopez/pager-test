@@ -4,7 +4,10 @@ import {
   version as uuidVersion
 } from "uuid";
 
-import { ID } from "../entities/interfaces";
+export interface ID {
+  makeId: () => string;
+  isValidId: (uuid: string) => boolean;
+}
 
 export class Identification implements ID {
   makeId(): string {
