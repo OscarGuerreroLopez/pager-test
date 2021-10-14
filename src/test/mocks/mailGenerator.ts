@@ -1,5 +1,5 @@
-import { MailPort } from "../entities/interfaces";
-import { Mail, MailTransResult } from "../entities/types";
+import { MailPort } from "../../pager-service/entities/interfaces";
+import { Mail, MailTransResult } from "../../pager-service/entities/types";
 
 class MailAdapter implements MailPort {
   async sendMail(mail: Mail): Promise<MailTransResult> {

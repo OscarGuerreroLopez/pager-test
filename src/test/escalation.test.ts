@@ -1,5 +1,5 @@
-import { EscalationPolicy as EPResult } from "../entities/types";
-import EscalationUseCase from "../use-cases/escalationPolicy";
+import { EscalationPolicy as EPResult } from "../pager-service/escalation/entities/types";
+import EscalationUseCase from "../pager-service/escalation/escalationPolicy";
 
 const data = {
   id: "1234",

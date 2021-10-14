@@ -1,4 +1,5 @@
-import { Timer, TimerTransResult, ServiceStatus } from "../types";
+import { Timer, TimerTransResult } from "../types";
+import { ServiceStatus } from "../../alert/entities/types";
 
 export interface TimerPort {
   sendTimer(timer: Timer): Promise<TimerTransResult>;

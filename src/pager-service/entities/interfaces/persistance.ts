@@ -1,4 +1,5 @@
-import { Timer, ServiceStatus } from "../types";
+import { Timer } from "../types";
+import { ServiceStatus } from "../../alert/entities/types";
 
 export interface PersistanceRepository {
   storeAlert(pager: Timer): Promise<boolean>;

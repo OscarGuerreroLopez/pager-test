@@ -1,5 +1,5 @@
-import { Timer, TimerTransResult } from "../entities/types";
-import { TimerInPort } from "../entities/interfaces";
+import { Timer, TimerTransResult } from "../../pager-service/entities/types";
+import { TimerInPort } from "../../pager-service/entities/interfaces";
 
 class TimerInAdapter implements TimerInPort {
   async getTimer(timer: Timer): Promise<TimerTransResult> {

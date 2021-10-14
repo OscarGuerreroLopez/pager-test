@@ -1,6 +1,6 @@
-import Mail from "./mailGenerator";
-import { Mail as MailType } from "../entities/types";
-import MailUseCase from "../use-cases/mail";
+import Mail from "./mocks/mailGenerator";
+import { Mail as MailType } from "../pager-service/entities/types";
+import MailUseCase from "../pager-service/use-cases/mail";
 
 const mailAdapter = new Mail();
 

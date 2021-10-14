@@ -3,14 +3,16 @@ import { Timer } from "../entities/types";
 import { AlertUseCase } from "./entities/interfaces";
 import {
   ID,
-  EscalationPort,
   MailPort,
   SmsPort,
   TimerPort,
   PersistanceRepository
-} from "../entities/interfaces";
+} from "../../pager-service/entities/interfaces";
+
+import { EscalationPort } from "../escalation/entities/interfaces";
 
 import { MailSender, SmsSender } from "../common";
+import { VerifyAlert } from "./verifyAlert";
 
 abstract class Alert implements AlertUseCase {
   protected id: ID;
@@ -36,28 +38,6 @@ abstract class Alert implements AlertUseCase {
     this.persistanceRepo = persistanceRepo;
   }
 
-  private async verifyAlert(alert: AlertType): Promise<AlertType> {
-    // Basic text to make sure that the alert comes with everything we need,
-    // in a real prod app obviously this would be more elavorated
-    // just to prove the point
-    // we just through errors, the services that use this case should handle the exceptions
-    // by using a typescript interface this should not happen but just in case we should
-    // do a validation to make sure everything we need comes
-    if (!alert.message) {
-      throw new Error("Missing message from alert");
-    }
-
-    if (!alert.serviceId) {
-      throw new Error("Missing serviceId from alert");
-    }
-
-    if (!alert.status) {
-      throw new Error("Missing status from alert");
-    }
-
-    return alert;
-  }
-
   async newAlert(alert: AlertType): Promise<ProcessedAlert> {
     // the alerting service, which resides outside the domain, does not assign the id, so we do it here
     alert.id = this.id.makeId();
@@ -67,7 +47,7 @@ abstract class Alert implements AlertUseCase {
       alert.serviceId
     );
 
-    const verifiedAlert = await this.verifyAlert(alert);
+    const verifiedAlert = VerifyAlert(alert);
 
     // make sure there are targets
     const areThereTargets = escalation.levels[0] && escalation.levels[0].target;

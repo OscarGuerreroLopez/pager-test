@@ -1,6 +1,6 @@
-import { ConsoleNotification } from "../entities/types";
-import ConsoleUseCase from "../use-cases/console";
-import { ConsolePort } from "../entities/interfaces";
+import { ConsoleNotification } from "../../pager-service/console/entities/types";
+import ConsoleUseCase from "../../pager-service/console";
+import { ConsolePort } from "../../pager-service/console/entities/interfaces";
 
 class ConsoleAdapter extends ConsoleUseCase implements ConsolePort {
   async receiveNewNotification(

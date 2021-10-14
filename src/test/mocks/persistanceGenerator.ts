@@ -1,6 +1,6 @@
-import { PersistanceRepository } from "../entities/interfaces";
-import { Timer } from "../entities/types";
-import { ServiceStatus } from "../alert/entities/types";
+import { PersistanceRepository } from "../../pager-service/entities/interfaces";
+import { Timer } from "../../pager-service/entities/types";
+import { ServiceStatus } from "../../pager-service/alert/entities/types";
 
 class PersistanceAdapter implements PersistanceRepository {
   async storeAlert(pager: Timer): Promise<boolean> {

@@ -1,6 +1,6 @@
-import { TimerPort } from "../entities/interfaces";
-import { Timer, TimerTransResult } from "../entities/types";
-import { ServiceStatus } from "../alert/entities/types";
+import { TimerPort } from "../../pager-service/entities/interfaces";
+import { Timer, TimerTransResult } from "../../pager-service/entities/types";
+import { ServiceStatus } from "../../pager-service/alert/entities/types";
 
 class TimerAdapter implements TimerPort {
   async sendTimer(timer: Timer): Promise<TimerTransResult> {

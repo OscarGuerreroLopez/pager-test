@@ -1,7 +1,7 @@
-import ConsoleGenerator from "./consoleGenerator";
-import { ConsoleNotification } from "../entities/types";
-import Timer from "./timerGenerator";
-import Persistance from "./persistanceGenerator";
+import ConsoleGenerator from "./mocks/consoleGenerator";
+import { ConsoleNotification } from "../pager-service/console/entities/types";
+import Timer from "./mocks/timerGenerator";
+import Persistance from "./mocks/persistanceGenerator";
 
 const timer = new Timer();
 const persistance = new Persistance();

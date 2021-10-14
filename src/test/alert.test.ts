@@ -1,13 +1,13 @@
-import Alertgenerator from "./alertGenerator";
+import Alertgenerator from "./mocks/alertGenerator";
 
-import { Alert } from "../alert/entities/types";
+import { Alert } from "../pager-service/alert/entities/types";
 
-import { Identification } from "./idGenerator";
-import Escalation from "./escalationGenerator";
-import Mail from "./mailGenerator";
-import Sms from "./smsGenerator";
-import Timer from "./timerGenerator";
-import Persistance from "./persistanceGenerator";
+import { Identification } from "./mocks/idGenerator";
+import Escalation from "./mocks/escalationGenerator";
+import Mail from "./mocks/mailGenerator";
+import Sms from "./mocks/smsGenerator";
+import Timer from "./mocks/timerGenerator";
+import Persistance from "./mocks/persistanceGenerator";
 
 const identification = new Identification();
 

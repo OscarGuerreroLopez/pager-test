@@ -1,8 +1,8 @@
-import { Timer as TimerType } from "../entities/types";
-import TimerInUseCase from "../use-cases/timerIn";
-import Mail from "./mailGenerator";
-import Sms from "./smsGenerator";
-import Persistance from "./persistanceGenerator";
+import { Timer as TimerType } from "../pager-service/entities/types";
+import TimerInUseCase from "../pager-service/use-cases/timerIn";
+import Mail from "./mocks/mailGenerator";
+import Sms from "./mocks/smsGenerator";
+import Persistance from "./mocks/persistanceGenerator";
 
 const timerEvent: TimerType = {
   alert: {

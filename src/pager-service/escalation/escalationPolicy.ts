@@ -1,8 +1,5 @@
-import {
-  EscalationUseCase,
-  EscalationRepository
-} from "../entities/interfaces";
-import { EscalationPolicy as EPResult } from "../entities/types";
+import { EscalationUseCase, EscalationRepository } from "./entities/interfaces";
+import { EscalationPolicy as EPResult } from "./entities/types";
 
 class EscalationPolicy implements EscalationUseCase {
   protected repository: EscalationRepository;
