@@ -16,7 +16,10 @@ const timerEvent: TimerType = {
     serviceId: "service1",
     levels: [
       {
-        target: { email: ["pepon@pepon.com", "cto@pepon.com"] }
+        target: {
+          email: ["pepon@pepon.com", "cto@pepon.com"],
+          sms: ["+1212345899"]
+        }
       },
       {
         target: {
@@ -91,17 +94,21 @@ const timerInUseCase = new TimerInUseCase(mail, sms, persistanceAdapter);
 describe("TimerInUseCase", () => {
   let spy: jest.Mock<any, any> | jest.SpyInstance<never, never>;
   let spyMail: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spySms: jest.Mock<any, any> | jest.SpyInstance<never, never>;
 
   beforeEach(async () => {
     spy = jest.fn();
     spy = jest.spyOn(timerInUseCase, "getTimerEvent" as never);
     spyMail = jest.fn();
     spyMail = jest.spyOn(mail, "sendMail" as never);
+    spySms = jest.fn();
+    spySms = jest.spyOn(sms, "sendSms" as never);
   });
 
   afterEach(() => {
     spy.mockRestore();
     spyMail.mockRestore();
+    spySms.mockRestore();
   });
 
   it(`Given a Monitored Service in an Unhealthy State,
@@ -115,6 +122,7 @@ describe("TimerInUseCase", () => {
     expect(result).toBeTruthy();
     expect(spy).toHaveBeenCalledWith(timerEvent);
     expect(spyMail).toHaveBeenCalledTimes(2);
+    expect(spySms).toHaveBeenCalledTimes(1);
   });
 
   it(`Given a Monitored Service in an Unhealthy State
