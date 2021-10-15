@@ -1,4 +1,4 @@
-import Alertgenerator from "./mocks/alertAdapter";
+import AlertAdapter from "./mocks/alertAdapter";
 import { Identification } from "./mocks/idGenerator";
 import Escalation from "./mocks/escalationAdapter";
 import Mail from "./mocks/mailAdapter";
@@ -16,7 +16,7 @@ const sms = new Sms();
 const timer = new Timer();
 const persistance = new Persistance();
 
-const alertingAdapter = new Alertgenerator(
+const alertingAdapter = new AlertAdapter(
   identification,
   escalation,
   mail,

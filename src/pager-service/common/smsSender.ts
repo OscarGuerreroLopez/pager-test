@@ -8,7 +8,7 @@ export const SmsSender = async (
   for (const phone of phones) {
     const smsMessage: Sms = {
       to: phone,
-      from: "",
+      from: "+34987654321",
       message
     };
     await smsSender(smsMessage);

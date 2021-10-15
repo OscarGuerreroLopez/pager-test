@@ -1,4 +1,4 @@
-import { TimerOut } from "../timer/entities/types";
+import { PagerEvent } from "./entities/types";
 import {
   PersistanceUseCase,
   PersistanceRepository
@@ -11,11 +11,11 @@ class Persistance implements PersistanceUseCase {
     this.persistanceRepository = persistanceRepository;
   }
 
-  async sendAlertNotification(pager: TimerOut): Promise<boolean> {
+  async sendAlertNotification(pager: PagerEvent): Promise<boolean> {
     return await this.persistanceRepository.storeAlert(pager);
   }
 
-  async getAlertNotification(alertId: string): Promise<TimerOut> {
+  async getAlertNotification(alertId: string): Promise<PagerEvent> {
     return await this.persistanceRepository.getAlert(alertId);
   }
 }

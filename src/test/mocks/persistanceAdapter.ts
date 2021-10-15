@@ -1,9 +1,9 @@
 import { PersistanceRepository } from "../../pager-service/persistance/entities/interfaces";
-import { TimerOut } from "../../pager-service/timer/entities/types";
+import { PagerEvent } from "../../pager-service/persistance/entities/types";
 import { ServiceStatus } from "../../pager-service/alert/entities/types";
 
 class PersistanceAdapter implements PersistanceRepository {
-  async storeAlert(pager: TimerOut): Promise<boolean> {
+  async storeAlert(pager: PagerEvent): Promise<boolean> {
     console.log(
       "Fake implementation of a persistance adapter. This will store in the db",
       pager
@@ -32,7 +32,7 @@ class PersistanceAdapter implements PersistanceRepository {
     return true;
   }
 
-  async getAlert(alertId: string): Promise<TimerOut> {
+  async getAlert(alertId: string): Promise<PagerEvent> {
     console.log(
       "Fake implementation of a persistance adapter. This would getAlert unhealthy",
       alertId

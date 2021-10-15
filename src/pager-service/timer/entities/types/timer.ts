@@ -8,14 +8,6 @@ export type TimerIn = {
   delay: number;
 };
 
-export type TimerOut = {
-  alert: Alert;
-  ep: EscalationPolicy;
-  alertLevel: number;
-  date: Date;
-  delay: number;
-};
-
 export type TimerEvent = {
   alertId: string;
   alertedLevel: number;
