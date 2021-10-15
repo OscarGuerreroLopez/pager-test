@@ -1,4 +1,4 @@
-import { TimerOut as TimerType, TimerTransResult } from "./entities/types";
+import { TimerTransResult, TimerEvent } from "./entities/types";
 import { TimerPort, TimerUseCase } from "./entities/interfaces";
 
 class TimerOut implements TimerUseCase {
@@ -8,7 +8,7 @@ class TimerOut implements TimerUseCase {
     this.timerService = timerService;
   }
 
-  async sendTimerNotification(event: TimerType): Promise<TimerTransResult> {
+  async sendTimerNotification(event: TimerEvent): Promise<TimerTransResult> {
     await this.timerService.sendTimer(event);
 
     return true;

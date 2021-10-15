@@ -14,6 +14,10 @@ class Persistance implements PersistanceUseCase {
   async sendAlertNotification(pager: TimerOut): Promise<boolean> {
     return await this.persistanceRepository.storeAlert(pager);
   }
+
+  async getAlertNotification(alertId: string): Promise<TimerOut> {
+    return await this.persistanceRepository.getAlert(alertId);
+  }
 }
 
 export default Persistance;

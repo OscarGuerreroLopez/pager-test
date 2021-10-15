@@ -1,11 +1,10 @@
-import { TimerOut, TimerTransResult } from "../types";
-import { ServiceStatus } from "../../../alert/entities/types";
+import { TimerTransResult, TimerEvent } from "../types";
 
 export interface TimerPort {
-  sendTimer(timer: TimerOut): Promise<TimerTransResult>;
-  resetTimer(alertId: string, status: ServiceStatus): Promise<boolean>;
+  sendTimer(event: TimerEvent): Promise<TimerTransResult>;
+  resetTimer(event: TimerEvent): Promise<TimerTransResult>;
 }
 
 export interface TimerUseCase {
-  sendTimerNotification(event: TimerOut): Promise<TimerTransResult>;
+  sendTimerNotification(event: TimerEvent): Promise<TimerTransResult>;
 }

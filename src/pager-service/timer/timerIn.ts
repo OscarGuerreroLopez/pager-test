@@ -23,11 +23,16 @@ class TimerIn implements TimerInUseCase {
 
   async getTimerEvent(timer: TimerType): Promise<TimerTransResult> {
     const areThereLevels = timer.ep.levels[timer.alertLevel]?.target || null;
-    console.log("@@@ timer", timer);
 
     const isServiceStillUnhealthy = timer.alert.status === "unhealthy";
 
     if (areThereLevels && timer.alert.id && isServiceStillUnhealthy) {
+      console.log(
+        "@@@111",
+        await this.persistanceRepo.getAlert(timer.alert.id)
+      );
+      console.log("@@@222", timer);
+
       const isThereMailLevel =
         timer.ep.levels[timer.alertLevel].target.email || null;
       const isThereSmsLevel =

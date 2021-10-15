@@ -1,40 +1,20 @@
 import Timer from "./mocks/timerOutAdapter";
-import { TimerOut as TimerType } from "../pager-service/timer/entities/types";
+import { TimerEvent } from "../pager-service/timer/entities/types";
 import TimerUseCase from "../pager-service/timer/timerOut";
 
 const timerAdapter = new Timer();
 
 const timerUseCase = new TimerUseCase(timerAdapter);
 
-const timerEvent: TimerType = {
-  alert: {
-    serviceId: "service1",
-    message: "***Something really bad happened***",
-    status: "unhealthy",
-    id: "2cf959e7-928a-49a2-8c5e-76c400b9f34f"
-  },
-  ep: {
-    id: "1234",
-    serviceId: "service1",
-    levels: [
-      {
-        target: { email: ["pepon@pepon.com", "cto@pepon.com"] }
-      },
-      {
-        target: {
-          email: ["cto@pepon.com", "bigboss@pepon.com"],
-          sms: ["+1212345890"]
-        }
-      }
-    ]
-  },
-  alertLevel: 0,
-  date: new Date(),
+const timerEvent: TimerEvent = {
+  alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
+  alertedLevel: 0,
+  time: new Date(),
   delay: 900000
 };
 
 describe("Timer Use Case test", () => {
-  it("should return true", async () => {
+  it("should return true if new timer event is created", async () => {
     const result = await timerUseCase.sendTimerNotification(timerEvent);
 
     expect(result).toBeTruthy();
