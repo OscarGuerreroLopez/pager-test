@@ -1,9 +1,15 @@
-import { ConsoleNotification } from "../types";
+import { HealthyNotification } from "../types";
 
 export interface ConsoleUseCase {
-  setAlertNotification(notification: ConsoleNotification): Promise<boolean>;
+  setHealthyAlertNotification(
+    notification: HealthyNotification
+  ): Promise<boolean>;
+  setAcknowledgedNotification(alertId: string): Promise<boolean>;
 }
 
 export interface ConsolePort {
-  receiveNewNotification(notification: ConsoleNotification): Promise<boolean>;
+  receiveNewHealthyNotification(
+    notification: HealthyNotification
+  ): Promise<boolean>;
+  receiveNewAcknowledgedNotification(alertId: string): Promise<boolean>;
 }

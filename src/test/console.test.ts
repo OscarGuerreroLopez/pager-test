@@ -1,42 +1,47 @@
 import ConsoleGenerator from "./mocks/consoleAdapter";
-import { ConsoleNotification } from "../pager-service/console/entities/types";
-import Timer from "./mocks/timerOutAdapter";
+import { HealthyNotification } from "../pager-service/console/entities/types";
 import Persistance from "./mocks/persistanceAdapter";
 
-const timer = new Timer();
 const persistance = new Persistance();
 
-const consoleAdapter = new ConsoleGenerator(persistance, timer);
+const consoleAdapter = new ConsoleGenerator(persistance);
 
 describe("Console Use Case with adapters", () => {
-  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<never, never>;
   let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spyPersistanceAck: jest.Mock<any, any> | jest.SpyInstance<never, never>;
 
-  beforeAll(async () => {
-    spyTimer = jest.fn();
-    spyTimer = jest.spyOn(timer, "resetTimer" as never);
+  beforeEach(async () => {
     spyPersistance = jest.fn();
     spyPersistance = jest.spyOn(persistance, "resetAlert" as never);
+    spyPersistanceAck = jest.fn();
+    spyPersistanceAck = jest.spyOn(persistance, "acknowledgedAlert" as never);
   });
 
   afterEach(() => {
-    spyTimer.mockRestore();
     spyPersistance.mockRestore();
+    spyPersistanceAck.mockRestore();
   });
 
   it("should return a valid output", async () => {
-    const consoleNotification: ConsoleNotification = {
+    const consoleNotification: HealthyNotification = {
       serviceId: "service1",
       alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
       status: "healthy"
     };
 
-    const result = await consoleAdapter.receiveNewNotification(
+    const result = await consoleAdapter.receiveNewHealthyNotification(
       consoleNotification
     );
 
     expect(result).toBeTruthy();
-    expect(spyTimer).toHaveBeenCalledTimes(1);
     expect(spyPersistance).toHaveBeenCalledTimes(1);
+  });
+  it("should return true if notification was acknowledge correctly", async () => {
+    const result = await consoleAdapter.setAcknowledgedNotification(
+      "2cf959e7-928a-49a2-8c5e-76c400b9f34f"
+    );
+
+    expect(result).toBeTruthy();
+    expect(spyPersistanceAck).toHaveBeenCalledTimes(1);
   });
 });

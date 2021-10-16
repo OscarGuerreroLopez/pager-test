@@ -1,14 +1,16 @@
-import { ConsoleNotification } from "../../pager-service/console/entities/types";
+import { HealthyNotification } from "../../pager-service/console/entities/types";
 import ConsoleUseCase from "../../pager-service/console";
 import { ConsolePort } from "../../pager-service/console/entities/interfaces";
 
 class ConsoleAdapter extends ConsoleUseCase implements ConsolePort {
-  async receiveNewNotification(
-    notification: ConsoleNotification
+  async receiveNewHealthyNotification(
+    notification: HealthyNotification
   ): Promise<boolean> {
-    const createdNotification = await this.setAlertNotification(notification);
+    return await this.setHealthyAlertNotification(notification);
+  }
 
-    return createdNotification;
+  async receiveNewAcknowledgedNotification(alertId: string): Promise<boolean> {
+    return this.setAcknowledgedNotification(alertId);
   }
 }
 

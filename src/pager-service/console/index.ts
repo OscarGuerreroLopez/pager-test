@@ -1,35 +1,30 @@
-import { TimerPort } from "../timer/entities/interfaces";
 import { ConsoleUseCase } from "../console/entities/interfaces";
-import { ConsoleNotification } from "../console/entities/types";
+import { HealthyNotification } from "../console/entities/types";
 import { PersistanceRepository } from "../persistance/entities/interfaces";
 
 class Console implements ConsoleUseCase {
   protected persistanceRepo: PersistanceRepository;
-  protected timerAdapter: TimerPort;
 
-  constructor(persistanceRepo: PersistanceRepository, timerAdapter: TimerPort) {
+  constructor(persistanceRepo: PersistanceRepository) {
     this.persistanceRepo = persistanceRepo;
-    this.timerAdapter = timerAdapter;
   }
 
-  async setAlertNotification(
-    notification: ConsoleNotification
+  async setHealthyAlertNotification(
+    notification: HealthyNotification
   ): Promise<boolean> {
-    const resetAlert = await this.persistanceRepo.resetAlert(
+    return await this.persistanceRepo.resetAlert(
       notification.alertId,
       notification.status
     );
+  }
 
-    const resetTimer = await this.timerAdapter.resetTimer(
-      notification.alertId,
-      notification.status
+  async setAcknowledgedNotification(alertId: string): Promise<boolean> {
+    console.log(
+      "@@@ todo setAcknowledgedNotification in Console UseCase",
+      alertId
     );
 
-    if (resetTimer && resetAlert) {
-      return true;
-    }
-
-    return false;
+    return await this.persistanceRepo.acknowledgedAlert(alertId);
   }
 }
 

@@ -7,4 +7,5 @@ export type PagerEvent = {
   alertLevel: number;
   date: Date;
   delay: number;
+  acknowledged: boolean;
 };
