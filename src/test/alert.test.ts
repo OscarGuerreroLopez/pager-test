@@ -62,6 +62,12 @@ describe("Alert Use Case with adapters", () => {
 
     expect(spyMail).toHaveBeenCalledTimes(2);
     expect(spyTimer).toHaveBeenCalledTimes(1);
+    expect(spyTimer).toHaveBeenCalledWith({
+      alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
+      alertedLevel: 0,
+      time: new Date("2021-10-16T16:23:05.276Z"),
+      delay: 900000
+    });
     expect(spyPersistance).toHaveBeenCalledTimes(1);
   });
 
