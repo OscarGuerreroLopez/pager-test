@@ -42,7 +42,10 @@ class PersistanceAdapter implements PersistanceRepository {
     return PagerlevelZeroUnhealthy;
   }
   async acknowledgedAlert(alertId: string): Promise<boolean> {
-    console.log("This will set alert acknowledge to true", alertId);
+    console.log(
+      "This will set alert acknowledge to true and store in persistance",
+      alertId
+    );
 
     return true;
   }

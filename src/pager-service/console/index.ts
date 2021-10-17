@@ -9,6 +9,7 @@ class Console implements ConsoleUseCase {
     this.persistanceRepo = persistanceRepo;
   }
 
+  // this method gets executed if an engineer reports a healthy alert
   async setHealthyAlertNotification(
     notification: HealthyNotification
   ): Promise<boolean> {
@@ -18,6 +19,7 @@ class Console implements ConsoleUseCase {
     );
   }
 
+  // this gets executed if an engineer acknowledge an alert
   async setAcknowledgedNotification(alertId: string): Promise<boolean> {
     return await this.persistanceRepo.acknowledgedAlert(alertId);
   }

@@ -2,16 +2,13 @@ import { Alert as AlertType, ProcessedAlert } from "./entities/types";
 import { TimerEvent } from "../timer/entities/types";
 import { PagerEvent } from "../persistance/entities/types";
 import { AlertUseCase } from "./entities/interfaces";
-import { ID } from "../../pager-service/utils";
-
+import { EscalationPort } from "../escalation/entities/interfaces";
+import { PersistanceRepository } from "../persistance/entities/interfaces";
 import { MailPort } from "../mail/entities/interfaces";
 import { TimerPort } from "../timer/entities/interfaces";
-
-import { EscalationPort } from "../escalation/entities/interfaces";
-
-import { PersistanceRepository } from "../persistance/entities/interfaces";
 import { SmsPort } from "../sms/entities/interfaces";
 
+import { ID } from "../../pager-service/utils";
 import { MailSender, SmsSender } from "../common";
 import { VerifyAlert } from "./verifyAlert";
 
@@ -44,6 +41,7 @@ abstract class Alert implements AlertUseCase {
     alert.id = this.id.makeId();
 
     // get all the alerts for that service that are not healthy
+    // if there are some unhealthy that means the service has been reported already
     const getAlertsRelatedToService =
       await this.persistanceRepo.getAlertByServiceAndStatus(
         alert.serviceId,
@@ -64,24 +62,26 @@ abstract class Alert implements AlertUseCase {
       alert.serviceId
     );
 
+    // little dummy validation that perhaps is not necessary cause typescript
     const verifiedAlert = VerifyAlert(alert);
 
     // make sure there are targets
     const areThereTargets = escalation.levels[0] && escalation.levels[0].target;
 
     if (areThereTargets) {
-      const isThereMailLevel = escalation.levels[0]?.target?.email || null; // mail targets?
-      const isThereSmsLevel = escalation.levels[0]?.target?.sms || null; //sms targets?
+      const mailTargets = escalation.levels[0]?.target?.email || null; // mail targets?
+      const smsTargets = escalation.levels[0]?.target?.sms || null; //sms targets?
       const message = `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`;
 
-      if (isThereMailLevel) {
-        await MailSender(this.mailAdapter.sendMail, isThereMailLevel, message);
+      if (mailTargets) {
+        await MailSender(this.mailAdapter.sendMail, mailTargets, message);
       }
 
-      if (isThereSmsLevel) {
-        await SmsSender(this.smsAdapter.sendSms, isThereSmsLevel, message);
+      if (smsTargets) {
+        await SmsSender(this.smsAdapter.sendSms, smsTargets, message);
       }
 
+      // create a new event to be stored
       const pagerEvent: PagerEvent = {
         alert: alert,
         ep: escalation,
@@ -91,6 +91,7 @@ abstract class Alert implements AlertUseCase {
         acknowledged: false
       };
 
+      // create a new timer event to be send to the timer service
       const timer: TimerEvent = {
         alertId: alert.id,
         alertedLevel: 0, // since this service receives the alerts from the services, it will always be the first one
