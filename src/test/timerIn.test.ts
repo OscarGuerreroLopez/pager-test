@@ -25,6 +25,8 @@ const timer = new Timer();
 
 const timerInUseCase = new TimerInUseCase(mail, sms, persistanceAdapter, timer);
 
+// here, instead of using the timerin adapter I decided to test the
+// use case directly, cause the other inbound adapters are tested directly
 describe("TimerInUseCase", () => {
   let spy: jest.Mock<any, any> | jest.SpyInstance<any, any>;
   let spyMail: jest.Mock<any, any> | jest.SpyInstance<any, any>;
@@ -35,7 +37,7 @@ describe("TimerInUseCase", () => {
 
   beforeEach(async () => {
     spy = jest.fn();
-    spy = jest.spyOn(timerInUseCase, "getTimerEvent");
+    spy = jest.spyOn(timerInUseCase, "processTimerEvent");
     spyMail = jest.fn();
     spyMail = jest.spyOn(mail, "sendMail");
     spySms = jest.fn();
@@ -67,7 +69,7 @@ describe("TimerInUseCase", () => {
       .spyOn(persistanceAdapter, "getAlert")
       .mockImplementation(async () => PagerlevelZeroUnhealthy);
 
-    const result = await timerInUseCase.getTimerEvent(timerEvent);
+    const result = await timerInUseCase.processTimerEvent(timerEvent);
 
     expect(result).toBeTruthy();
     expect(spy).toHaveBeenCalledWith(timerEvent);
@@ -106,7 +108,7 @@ describe("TimerInUseCase", () => {
       .spyOn(persistanceAdapter, "getAlert")
       .mockImplementation(async () => PagerAlertAcknoledged);
 
-    const result = await timerInUseCase.getTimerEvent(timerEvent);
+    const result = await timerInUseCase.processTimerEvent(timerEvent);
 
     expect(result).toBeTruthy();
     expect(spy).toHaveBeenCalledWith(timerEvent);
@@ -128,7 +130,7 @@ describe("TimerInUseCase", () => {
       .spyOn(persistanceAdapter, "getAlert")
       .mockImplementation(async () => PagerlevelOneHealthy);
 
-    const result = await timerInUseCase.getTimerEvent(timerEvent);
+    const result = await timerInUseCase.processTimerEvent(timerEvent);
 
     expect(result).toBeTruthy();
     expect(spy).toHaveBeenCalledWith(timerEvent);
@@ -144,7 +146,7 @@ describe("TimerInUseCase", () => {
       .spyOn(persistanceAdapter, "getAlert")
       .mockImplementation(async () => NoMoreLevels);
 
-    const result = await timerInUseCase.getTimerEvent(timerEvent);
+    const result = await timerInUseCase.processTimerEvent(timerEvent);
 
     expect(result).toBeFalsy();
   });

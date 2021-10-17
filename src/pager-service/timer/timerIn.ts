@@ -25,7 +25,7 @@ class TimerIn implements TimerInUseCase {
     this.timerAdapter = timerAdapter; // timer implementation so we can send the timer event after the alert comes
   }
 
-  async getTimerEvent(timer: TimerEvent): Promise<TimerTransResult> {
+  async processTimerEvent(timer: TimerEvent): Promise<TimerTransResult> {
     const pagerEvent = await this.persistanceRepo.getAlert(timer.alertId);
 
     if (pagerEvent.acknowledged) {

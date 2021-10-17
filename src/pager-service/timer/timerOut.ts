@@ -8,6 +8,9 @@ class TimerOut implements TimerUseCase {
     this.timerService = timerService;
   }
 
+  // we send a new timer event to the timer service
+  // whatever that timer service handles the delay is not
+  // the use-case business
   async sendTimerNotification(event: TimerEvent): Promise<TimerTransResult> {
     await this.timerService.sendTimer(event);
 
