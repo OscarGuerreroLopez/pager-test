@@ -7,7 +7,8 @@ import Timer from "./mocks/timerOutAdapter";
 import {
   PagerlevelZeroUnhealthy,
   PagerAlertAcknoledged,
-  PagerlevelOneHealthy
+  PagerlevelOneHealthy,
+  NoMoreLevels
 } from "./mocks/pagerGenerator";
 
 const timerEvent: TimerEvent = {
@@ -135,5 +136,16 @@ describe("TimerInUseCase", () => {
     expect(spySms).toHaveBeenCalledTimes(0);
     expect(spyTimer).toHaveBeenCalledTimes(0);
     expect(spyPersistanceUpdate).toHaveBeenCalledTimes(0);
+  });
+
+  it("should return false if there are no more targets or levels", async () => {
+    spyPersistance = jest.fn();
+    spyPersistance = jest
+      .spyOn(persistanceAdapter, "getAlert")
+      .mockImplementation(async () => NoMoreLevels);
+
+    const result = await timerInUseCase.getTimerEvent(timerEvent);
+
+    expect(result).toBeFalsy();
   });
 });

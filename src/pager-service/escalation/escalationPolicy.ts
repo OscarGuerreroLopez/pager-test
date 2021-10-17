@@ -8,6 +8,7 @@ class EscalationPolicy implements EscalationUseCase {
     this.repository = repository;
   }
 
+  // get the escalation policy from storage to be used
   async getEscalationPolicy(serviceId: string): Promise<EPResult> {
     return await this.repository.getPolicy(serviceId);
   }
