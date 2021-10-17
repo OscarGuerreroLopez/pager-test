@@ -46,6 +46,19 @@ class PersistanceAdapter implements PersistanceRepository {
 
     return true;
   }
+
+  async getAlertByServiceAndStatus(
+    serviceId: string,
+    status: ServiceStatus
+  ): Promise<PagerEvent[]> {
+    console.log(
+      "This is the getAlertByServiceAndStatus at the persistancedapter",
+      serviceId,
+      status
+    );
+
+    return [];
+  }
 }
 
 export default PersistanceAdapter;

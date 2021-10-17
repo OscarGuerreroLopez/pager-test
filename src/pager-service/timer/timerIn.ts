@@ -27,7 +27,6 @@ class TimerIn implements TimerInUseCase {
 
   async getTimerEvent(timer: TimerEvent): Promise<TimerTransResult> {
     const pagerEvent = await this.persistanceRepo.getAlert(timer.alertId);
-    console.log("@@@111", timer);
 
     if (pagerEvent.acknowledged) {
       return true;
@@ -52,14 +51,10 @@ class TimerIn implements TimerInUseCase {
       const message = `${pagerEvent.alert.message} serviceID: ${pagerEvent.alert.serviceId} status: ${pagerEvent.alert.status}`;
 
       if (mailTargets) {
-        console.log("@@@222", mailTargets);
-
         await MailSender(this.mailAdapter.sendMail, mailTargets, message);
       }
 
       if (smsTargets) {
-        console.log("@@@333", smsTargets);
-
         await SmsSender(this.smsAdapter.sendSms, smsTargets, message);
       }
 
@@ -78,34 +73,3 @@ class TimerIn implements TimerInUseCase {
 }
 
 export default TimerIn;
-
-/*
-    const areThereLevels = timer.ep.levels[timer.alertLevel]?.target || null;
-
-    const isServiceStillUnhealthy = timer.alert.status === "unhealthy";
-
-    if (areThereLevels && timer.alert.id && isServiceStillUnhealthy) {
-      console.log(
-        "@@@111",
-        await this.persistanceRepo.getAlert(timer.alert.id)
-      );
-      console.log("@@@222", timer);
-
-      const isThereMailLevel =
-        timer.ep.levels[timer.alertLevel].target.email || null;
-      const isThereSmsLevel =
-        timer.ep.levels[timer.alertLevel].target.sms || null;
-      const message = `${timer.alert.message} serviceID: ${timer.alert.serviceId} status: ${timer.alert.status}`;
-
-      if (isThereMailLevel) {
-        await MailSender(this.mailAdapter.sendMail, isThereMailLevel, message);
-      }
-
-      if (isThereSmsLevel) {
-        await SmsSender(this.smsAdapter.sendSms, isThereSmsLevel, message);
-      }
-
-      await this.persistanceRepo.updateAlert(timer.alert.id, timer.alertLevel);
-      return true;
-    }
-*/

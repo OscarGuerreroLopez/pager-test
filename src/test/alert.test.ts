@@ -6,6 +6,7 @@ import Sms from "./mocks/smsAdapter";
 import Timer from "./mocks/timerOutAdapter";
 import Persistance from "./mocks/persistanceAdapter";
 import { Alert } from "../pager-service/alert/entities/types";
+import { PagerlevelZeroUnhealthy } from "./mocks/pagerGenerator";
 
 const identification = new Identification();
 
@@ -26,23 +27,32 @@ const alertingAdapter = new AlertAdapter(
 );
 
 describe("Alert Use Case with adapters", () => {
-  let spyMail: jest.Mock<any, any> | jest.SpyInstance<never, never>;
-  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<never, never>;
-  let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<never, never>;
+  let spyMail: jest.Mock<any, any> | jest.SpyInstance<any, any>;
+  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<any, any>;
+  let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<any, any>;
+  let spyPersistanceGetAlertByServiceAndStatus:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<any, any>;
 
   beforeAll(async () => {
     spyMail = jest.fn();
-    spyMail = jest.spyOn(mail, "sendMail" as never);
+    spyMail = jest.spyOn(mail, "sendMail");
     spyTimer = jest.fn();
-    spyTimer = jest.spyOn(timer, "sendTimer" as never);
+    spyTimer = jest.spyOn(timer, "sendTimer");
     spyPersistance = jest.fn();
-    spyPersistance = jest.spyOn(persistance, "storeAlert" as never);
+    spyPersistance = jest.spyOn(persistance, "storeAlert");
+    spyPersistanceGetAlertByServiceAndStatus = jest.fn();
+    spyPersistanceGetAlertByServiceAndStatus = jest.spyOn(
+      persistance,
+      "getAlertByServiceAndStatus"
+    );
   });
 
   afterEach(() => {
     spyMail.mockRestore();
     spyTimer.mockRestore();
     spyPersistance.mockRestore();
+    spyPersistanceGetAlertByServiceAndStatus.mockRestore();
   });
   it(`Given a Monitored Service in a Healthy State,
   when the Pager receives an Alert related to this Monitored Service,
@@ -69,6 +79,32 @@ describe("Alert Use Case with adapters", () => {
       delay: 900000
     });
     expect(spyPersistance).toHaveBeenCalledTimes(1);
+  });
+
+  it(`Given a Monitored Service in an Unhealthy State,
+  when the Pager receives an Alert related to this Monitored Service,
+  then the Pager doesn’t notify any Target
+  and doesn’t set an acknowledgement delay`, async () => {
+    spyPersistanceGetAlertByServiceAndStatus = jest.fn();
+    spyPersistanceGetAlertByServiceAndStatus = jest
+      .spyOn(persistance, "getAlertByServiceAndStatus")
+      .mockImplementation(async () => [PagerlevelZeroUnhealthy]);
+
+    const alert: Alert = {
+      serviceId: "service1",
+      message: "Something really bad happened",
+      status: "unhealthy"
+    };
+    const result = await alertingAdapter.processNewAlert(alert);
+
+    expect(result).toStrictEqual({
+      id: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
+      processed: false,
+      reason: "This service is already flagged as unhealthy"
+    });
+
+    expect(spyMail).toHaveBeenCalledTimes(0);
+    expect(spyTimer).toHaveBeenCalledTimes(0);
   });
 
   it("should throw a missing message error ", async () => {

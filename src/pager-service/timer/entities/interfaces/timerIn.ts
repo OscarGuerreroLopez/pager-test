@@ -1,9 +1,9 @@
-import { TimerIn as TimerType, TimerTransResult } from "../types";
+import { TimerEvent, TimerTransResult } from "../types";
 
 export interface TimerInUseCase {
-  getTimerEvent(timer: TimerType): Promise<TimerTransResult>;
+  getTimerEvent(timer: TimerEvent): Promise<TimerTransResult>;
 }
 
 export interface TimerInPort {
-  getTimer(timer: TimerType): Promise<TimerTransResult>;
+  getTimer(timer: TimerEvent): Promise<TimerTransResult>;
 }

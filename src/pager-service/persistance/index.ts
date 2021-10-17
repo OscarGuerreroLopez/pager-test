@@ -37,6 +37,16 @@ class Persistance implements PersistanceUseCase {
   async acknowledgedAlertNotification(alertId: string): Promise<boolean> {
     return this.persistanceRepository.acknowledgedAlert(alertId);
   }
+
+  async getAlertByServiceAndStatusNotification(
+    serviceId: string,
+    status: ServiceStatus
+  ): Promise<PagerEvent[]> {
+    return this.persistanceRepository.getAlertByServiceAndStatus(
+      serviceId,
+      status
+    );
+  }
 }
 
 export default Persistance;

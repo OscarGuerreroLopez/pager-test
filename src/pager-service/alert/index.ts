@@ -42,6 +42,22 @@ abstract class Alert implements AlertUseCase {
   async newAlert(alert: AlertType): Promise<ProcessedAlert> {
     // the alerting service, which resides outside the domain, does not assign the id, so we do it here
     alert.id = this.id.makeId();
+
+    // get all the alerts for that service that are not healthy
+    const getAlertsRelatedToService =
+      await this.persistanceRepo.getAlertByServiceAndStatus(
+        alert.serviceId,
+        "unhealthy"
+      );
+    // if the service has been reported as unhealthy already then don't do anything
+    if (getAlertsRelatedToService.length !== 0) {
+      return {
+        id: alert.id,
+        processed: false,
+        reason: "This service is already flagged as unhealthy"
+      };
+    }
+
     // here we get the escalation policy for this particular service
     // this is an external service or adapter that gets injected into this use case
     const escalation = await this.escalationAdapter.getEscalation(
@@ -89,7 +105,7 @@ abstract class Alert implements AlertUseCase {
       return { id: alert.id, processed: true };
     }
 
-    return { id: alert.id, processed: false };
+    return { id: alert.id, processed: false, reason: "No targets" };
   }
 }
 

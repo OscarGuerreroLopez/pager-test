@@ -19,11 +19,6 @@ class Console implements ConsoleUseCase {
   }
 
   async setAcknowledgedNotification(alertId: string): Promise<boolean> {
-    console.log(
-      "@@@ todo setAcknowledgedNotification in Console UseCase",
-      alertId
-    );
-
     return await this.persistanceRepo.acknowledgedAlert(alertId);
   }
 }

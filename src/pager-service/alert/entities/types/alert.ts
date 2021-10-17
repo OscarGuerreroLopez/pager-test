@@ -7,4 +7,8 @@ export type Alert = {
   status: ServiceStatus;
 };
 
-export type ProcessedAlert = { id: string; processed: boolean };
+export type ProcessedAlert = {
+  id: string;
+  processed: boolean;
+  reason?: string;
+};

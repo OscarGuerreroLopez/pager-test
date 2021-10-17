@@ -7,6 +7,10 @@ export interface PersistanceRepository {
   updateAlert(alertId: string, alertLevel: number): Promise<boolean>;
   acknowledgedAlert(alertId: string): Promise<boolean>;
   getAlert(alertId: string): Promise<PagerEvent>;
+  getAlertByServiceAndStatus(
+    serviceId: string,
+    status: ServiceStatus
+  ): Promise<PagerEvent[]>;
 }
 
 export interface PersistanceUseCase {
@@ -21,4 +25,8 @@ export interface PersistanceUseCase {
     status: ServiceStatus
   ): Promise<boolean>;
   acknowledgedAlertNotification(alertId: string): Promise<boolean>;
+  getAlertByServiceAndStatusNotification(
+    serviceId: string,
+    status: ServiceStatus
+  ): Promise<PagerEvent[]>;
 }
