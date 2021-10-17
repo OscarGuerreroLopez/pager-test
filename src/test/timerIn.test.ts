@@ -6,7 +6,8 @@ import Persistance from "./mocks/persistanceAdapter";
 import Timer from "./mocks/timerOutAdapter";
 import {
   PagerlevelZeroUnhealthy,
-  PagerAlertAcknoledged
+  PagerAlertAcknoledged,
+  PagerlevelOneHealthy
 } from "./mocks/pagerGenerator";
 
 const timerEvent: TimerEvent = {
@@ -103,6 +104,28 @@ describe("TimerInUseCase", () => {
     spyPersistance = jest
       .spyOn(persistanceAdapter, "getAlert")
       .mockImplementation(async () => PagerAlertAcknoledged);
+
+    const result = await timerInUseCase.getTimerEvent(timerEvent);
+
+    expect(result).toBeTruthy();
+    expect(spy).toHaveBeenCalledWith(timerEvent);
+    expect(spyMail).toHaveBeenCalledTimes(0);
+    expect(spySms).toHaveBeenCalledTimes(0);
+    expect(spyTimer).toHaveBeenCalledTimes(0);
+    expect(spyPersistanceUpdate).toHaveBeenCalledTimes(0);
+  });
+
+  it(`Given a Monitored Service in an Unhealthy State,
+  when the Pager receives a Healthy event related to this Monitored Service
+  and later receives the Acknowledgement Timeout,
+  then the Monitored Service becomes Healthy,
+  the Pager doesn’t notify any Target
+  and doesn’t set an acknowledgement delay
+  `, async () => {
+    spyPersistance = jest.fn();
+    spyPersistance = jest
+      .spyOn(persistanceAdapter, "getAlert")
+      .mockImplementation(async () => PagerlevelOneHealthy);
 
     const result = await timerInUseCase.getTimerEvent(timerEvent);
 
