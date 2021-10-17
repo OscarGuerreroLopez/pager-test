@@ -88,7 +88,7 @@ describe("TimerInUseCase", () => {
     expect(spyPersistanceUpdate).toHaveBeenCalledTimes(1);
     expect(spyPersistanceUpdate).toHaveBeenCalledWith(
       "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
-      1
+      { alertLevel: 1 }
     );
   });
 

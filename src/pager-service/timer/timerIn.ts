@@ -63,7 +63,9 @@ class TimerIn implements TimerInUseCase {
         alertedLevel: nextAlertLevel
       });
 
-      await this.persistanceRepo.updateAlert(timer.alertId, nextAlertLevel);
+      await this.persistanceRepo.updateAlert(timer.alertId, {
+        alertLevel: nextAlertLevel
+      });
 
       return true;
     }

@@ -24,18 +24,20 @@ class Persistance implements PersistanceUseCase {
     alertId: string,
     alertLevel: number
   ): Promise<boolean> {
-    return this.persistanceRepository.updateAlert(alertId, alertLevel);
+    return this.persistanceRepository.updateAlert(alertId, { alertLevel });
   }
 
   async resetAlertNotification(
     alertId: string,
     status: ServiceStatus
   ): Promise<boolean> {
-    return this.persistanceRepository.resetAlert(alertId, status);
+    return this.persistanceRepository.updateAlert(alertId, { alert: status });
   }
 
   async acknowledgedAlertNotification(alertId: string): Promise<boolean> {
-    return this.persistanceRepository.acknowledgedAlert(alertId);
+    return this.persistanceRepository.updateAlert(alertId, {
+      acknowledged: true
+    });
   }
 
   async getAlertByServiceAndStatusNotification(

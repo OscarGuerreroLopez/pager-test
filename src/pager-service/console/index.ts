@@ -13,15 +13,16 @@ class Console implements ConsoleUseCase {
   async setHealthyAlertNotification(
     notification: HealthyNotification
   ): Promise<boolean> {
-    return await this.persistanceRepo.resetAlert(
-      notification.alertId,
-      notification.status
-    );
+    return await this.persistanceRepo.updateAlert(notification.alertId, {
+      alert: { status: notification.status }
+    });
   }
 
   // this gets executed if an engineer acknowledge an alert
   async setAcknowledgedNotification(alertId: string): Promise<boolean> {
-    return await this.persistanceRepo.acknowledgedAlert(alertId);
+    return await this.persistanceRepo.updateAlert(alertId, {
+      acknowledged: true
+    });
   }
 }
 

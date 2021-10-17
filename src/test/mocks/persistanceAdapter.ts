@@ -13,21 +13,11 @@ class PersistanceAdapter implements PersistanceRepository {
     return true;
   }
 
-  async resetAlert(alertId: string, status: ServiceStatus): Promise<boolean> {
-    console.log(
-      "Fake implementation of a persistance adapter. this would reset an alert in case an engineer mark it as healthy ",
-      alertId,
-      status
-    );
-
-    return true;
-  }
-
-  async updateAlert(alertId: string, alertLevel: number): Promise<boolean> {
+  async updateAlert(alertId: string, alert: IObjectLiteral): Promise<boolean> {
     console.log(
       "Fake implementation of a persistance adapter. This would update an alert in case the previous level did not acknowledge ",
       alertId,
-      alertLevel
+      alert
     );
 
     return true;
@@ -40,14 +30,6 @@ class PersistanceAdapter implements PersistanceRepository {
     );
 
     return PagerlevelZeroUnhealthy;
-  }
-  async acknowledgedAlert(alertId: string): Promise<boolean> {
-    console.log(
-      "This will set alert acknowledge to true and store in persistance",
-      alertId
-    );
-
-    return true;
   }
 
   async getAlertByServiceAndStatus(

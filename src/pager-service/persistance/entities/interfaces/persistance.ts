@@ -3,9 +3,7 @@ import { ServiceStatus } from "../../../alert/entities/types";
 
 export interface PersistanceRepository {
   storeAlert(pager: PagerEvent): Promise<boolean>;
-  resetAlert(alertId: string, status: ServiceStatus): Promise<boolean>;
-  updateAlert(alertId: string, alertLevel: number): Promise<boolean>;
-  acknowledgedAlert(alertId: string): Promise<boolean>;
+  updateAlert(alertId: string, alert: IObjectLiteral): Promise<boolean>;
   getAlert(alertId: string): Promise<PagerEvent>;
   getAlertByServiceAndStatus(
     serviceId: string,

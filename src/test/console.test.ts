@@ -8,18 +8,14 @@ const consoleAdapter = new ConsoleGenerator(persistance);
 
 describe("Console Use Case with adapters", () => {
   let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<never, never>;
-  let spyPersistanceAck: jest.Mock<any, any> | jest.SpyInstance<never, never>;
 
   beforeEach(async () => {
     spyPersistance = jest.fn();
-    spyPersistance = jest.spyOn(persistance, "resetAlert" as never);
-    spyPersistanceAck = jest.fn();
-    spyPersistanceAck = jest.spyOn(persistance, "acknowledgedAlert" as never);
+    spyPersistance = jest.spyOn(persistance, "updateAlert" as never);
   });
 
   afterEach(() => {
     spyPersistance.mockRestore();
-    spyPersistanceAck.mockRestore();
   });
 
   it("should return a valid output", async () => {
@@ -42,6 +38,6 @@ describe("Console Use Case with adapters", () => {
     );
 
     expect(result).toBeTruthy();
-    expect(spyPersistanceAck).toHaveBeenCalledTimes(1);
+    expect(spyPersistance).toHaveBeenCalledTimes(1);
   });
 });
