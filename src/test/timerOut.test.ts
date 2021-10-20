@@ -9,7 +9,7 @@ const timerUseCase = new TimerUseCase(timerAdapter);
 const timerEvent: TimerEvent = {
   alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
   alertedLevel: 0,
-  time: new Date("2021-10-16T16:23:05.276Z"),
+  time: new Date(),
   delay: 900000
 };
 
