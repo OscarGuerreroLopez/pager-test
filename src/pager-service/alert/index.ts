@@ -86,7 +86,7 @@ abstract class Alert implements AlertUseCase {
         alert: alert,
         ep: escalation,
         alertLevel: 0, // since this service receives the alerts from the services, it will always be the first one
-        date: new Date("2021-10-16T16:23:05.276Z"),
+        date: new Date(),
         delay: 900000,
         acknowledged: false
       };
@@ -95,7 +95,7 @@ abstract class Alert implements AlertUseCase {
       const timer: TimerEvent = {
         alertId: alert.id,
         alertedLevel: 0, // since this service receives the alerts from the services, it will always be the first one
-        time: new Date("2021-10-16T16:23:05.276Z"),
+        time: new Date(),
         delay: 900000
       };
 

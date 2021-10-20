@@ -25,7 +25,7 @@ const alertingAdapter = new AlertAdapter(
   timer,
   persistance
 );
-
+jest.useFakeTimers("modern").setSystemTime(new Date("2020-01-01").getTime());
 describe("Alert Use Case with adapters", () => {
   let spyMail: jest.Mock<any, any> | jest.SpyInstance<any, any>;
   let spyTimer: jest.Mock<any, any> | jest.SpyInstance<any, any>;
@@ -75,7 +75,7 @@ describe("Alert Use Case with adapters", () => {
     expect(spyTimer).toHaveBeenCalledWith({
       alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
       alertedLevel: 0,
-      time: new Date("2021-10-16T16:23:05.276Z"),
+      time: new Date(),
       delay: 900000
     });
     expect(spyPersistance).toHaveBeenCalledTimes(1);
