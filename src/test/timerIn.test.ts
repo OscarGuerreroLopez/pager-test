@@ -10,6 +10,9 @@ import {
   PagerlevelOneHealthy,
   NoMoreLevels
 } from "./mocks/pagerGenerator";
+import { Mail as MailType } from "../pager-service/mail/entities/types";
+import { Sms as SmsType } from "../pager-service/sms/entities/types";
+import { PagerEvent } from "src/pager-service/persistance/entities/types";
 
 const timerEvent: TimerEvent = {
   alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
@@ -28,12 +31,27 @@ const timerInUseCase = new TimerInUseCase(mail, sms, persistanceAdapter, timer);
 // here, instead of using the timerin adapter I decided to test the
 // use case directly, cause the other inbound adapters are tested directly
 describe("TimerInUseCase", () => {
-  let spy: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyMail: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spySms: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyPersistanceUpdate: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<any, any>;
+  let spy:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [timer: TimerEvent]>;
+  let spyMail:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [mail: MailType]>;
+  let spySms:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [sms: SmsType]>;
+  let spyPersistance:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<PagerEvent>, [alertId: string]>;
+  let spyPersistanceUpdate:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<
+        Promise<boolean>,
+        [alertId: string, alert: IObjectLiteral]
+      >;
+  let spyTimer:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [timer: TimerEvent]>;
 
   beforeEach(async () => {
     spy = jest.fn();
