@@ -1,6 +1,6 @@
 # Pager Test
 
-Entry test using Hexagonal Architecture with entities, use cases, ports and adapters
+Entry test using Hexagonal Architecture with entities, use cases, ports and adapters, The aasigment can be seen at assignment.md
 
 ## Installation
 
