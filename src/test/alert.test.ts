@@ -5,8 +5,11 @@ import Mail from "./mocks/mailAdapter";
 import Sms from "./mocks/smsAdapter";
 import Timer from "./mocks/timerOutAdapter";
 import Persistance from "./mocks/persistanceAdapter";
-import { Alert } from "../pager-service/alert/entities/types";
+import { Alert, ServiceStatus } from "../pager-service/alert/entities/types";
 import { PagerlevelZeroUnhealthy } from "./mocks/pagerGenerator";
+import { Mail as MailType } from "../pager-service/mail/entities/types";
+import { TimerEvent } from "../pager-service/timer/entities/types";
+import { PagerEvent } from "../pager-service/persistance/entities/types";
 
 const identification = new Identification();
 
@@ -25,14 +28,23 @@ const alertingAdapter = new AlertAdapter(
   timer,
   persistance
 );
-
+jest.useFakeTimers("modern").setSystemTime(new Date("2020-10-20").getTime());
 describe("Alert Use Case with adapters", () => {
-  let spyMail: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyTimer: jest.Mock<any, any> | jest.SpyInstance<any, any>;
-  let spyPersistance: jest.Mock<any, any> | jest.SpyInstance<any, any>;
+  let spyMail:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [mail: MailType]>;
+  let spyTimer:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [timer: TimerEvent]>;
+  let spyPersistance:
+    | jest.Mock<any, any>
+    | jest.SpyInstance<Promise<boolean>, [pager: PagerEvent]>;
   let spyPersistanceGetAlertByServiceAndStatus:
     | jest.Mock<any, any>
-    | jest.SpyInstance<any, any>;
+    | jest.SpyInstance<
+        Promise<PagerEvent[]>,
+        [serviceId: string, status: ServiceStatus]
+      >;
 
   beforeAll(async () => {
     spyMail = jest.fn();
@@ -75,7 +87,7 @@ describe("Alert Use Case with adapters", () => {
     expect(spyTimer).toHaveBeenCalledWith({
       alertId: "2cf959e7-928a-49a2-8c5e-76c400b9f34f",
       alertedLevel: 0,
-      time: new Date("2021-10-16T16:23:05.276Z"),
+      time: new Date(),
       delay: 900000
     });
     expect(spyPersistance).toHaveBeenCalledTimes(1);

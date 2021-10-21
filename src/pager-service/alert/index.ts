@@ -12,7 +12,7 @@ import { ID } from "../../pager-service/utils";
 import { MailSender, SmsSender } from "../common";
 import { VerifyAlert } from "./verifyAlert";
 
-abstract class Alert implements AlertUseCase {
+class Alert implements AlertUseCase {
   protected id: ID;
   protected escalationAdapter: EscalationPort;
   protected mailAdapter: MailPort;
@@ -56,14 +56,14 @@ abstract class Alert implements AlertUseCase {
       };
     }
 
+    // little dummy validation that perhaps is not necessary cause typescript
+    const verifiedAlert = VerifyAlert(alert);
+
     // here we get the escalation policy for this particular service
     // this is an external service or adapter that gets injected into this use case
     const escalation = await this.escalationAdapter.getEscalation(
       alert.serviceId
     );
-
-    // little dummy validation that perhaps is not necessary cause typescript
-    const verifiedAlert = VerifyAlert(alert);
 
     // make sure there are targets
     const areThereTargets = escalation.levels[0] && escalation.levels[0].target;
@@ -74,11 +74,11 @@ abstract class Alert implements AlertUseCase {
       const message = `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`;
 
       if (mailTargets) {
-        await MailSender(this.mailAdapter.sendMail, mailTargets, message);
+        MailSender(this.mailAdapter.sendMail, mailTargets, message);
       }
 
       if (smsTargets) {
-        await SmsSender(this.smsAdapter.sendSms, smsTargets, message);
+        SmsSender(this.smsAdapter.sendSms, smsTargets, message);
       }
 
       // create a new event to be stored
@@ -86,7 +86,7 @@ abstract class Alert implements AlertUseCase {
         alert: alert,
         ep: escalation,
         alertLevel: 0, // since this service receives the alerts from the services, it will always be the first one
-        date: new Date("2021-10-16T16:23:05.276Z"),
+        date: new Date(),
         delay: 900000,
         acknowledged: false
       };
@@ -95,13 +95,12 @@ abstract class Alert implements AlertUseCase {
       const timer: TimerEvent = {
         alertId: alert.id,
         alertedLevel: 0, // since this service receives the alerts from the services, it will always be the first one
-        time: new Date("2021-10-16T16:23:05.276Z"),
+        time: new Date(),
         delay: 900000
       };
 
-      await this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
-
       await this.persistanceRepo.storeAlert(pagerEvent); // we are keeping the alert in our storage for later analysis
+      this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
 
       return { id: alert.id, processed: true };
     }

@@ -29,7 +29,7 @@ export const PagerlevelZeroUnhealthy: PagerEvent = {
     ]
   },
   alertLevel: 0,
-  date: new Date("2021-10-16T16:23:05.276Z"),
+  date: new Date(),
   delay: 900000,
   acknowledged: false
 };
@@ -63,7 +63,7 @@ export const PagerlevelOneUnhealthy: PagerEvent = {
     ]
   },
   alertLevel: 1,
-  date: new Date("2021-10-16T16:23:05.276Z"),
+  date: new Date(),
   delay: 900000,
   acknowledged: false
 };
@@ -97,7 +97,7 @@ export const PagerlevelOneHealthy: PagerEvent = {
     ]
   },
   alertLevel: 1,
-  date: new Date("2021-10-16T16:23:05.276Z"),
+  date: new Date(),
   delay: 900000,
   acknowledged: false
 };
@@ -131,7 +131,7 @@ export const PagerAlertAcknoledged: PagerEvent = {
     ]
   },
   alertLevel: 1,
-  date: new Date("2021-10-16T16:23:05.276Z"),
+  date: new Date(),
   delay: 900000,
   acknowledged: true
 };
@@ -165,7 +165,7 @@ export const NoMoreLevels: PagerEvent = {
     ]
   },
   alertLevel: 2,
-  date: new Date("2021-10-16T16:23:05.276Z"),
+  date: new Date(),
   delay: 900000,
   acknowledged: false
 };
