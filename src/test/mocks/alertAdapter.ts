@@ -15,7 +15,7 @@ class AlertingAdapter extends AlertUseCase implements AlertPort {
       return await this.newAlert(alert);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(error.message || "");
+        throw new Error(error.message || "no error message");
       }
 
       throw error;

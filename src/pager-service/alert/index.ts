@@ -74,11 +74,11 @@ abstract class Alert implements AlertUseCase {
       const message = `${verifiedAlert.message} serviceID: ${verifiedAlert.serviceId} status: ${verifiedAlert.status}`;
 
       if (mailTargets) {
-        await MailSender(this.mailAdapter.sendMail, mailTargets, message);
+        MailSender(this.mailAdapter.sendMail, mailTargets, message);
       }
 
       if (smsTargets) {
-        await SmsSender(this.smsAdapter.sendSms, smsTargets, message);
+        SmsSender(this.smsAdapter.sendSms, smsTargets, message);
       }
 
       // create a new event to be stored
@@ -99,9 +99,9 @@ abstract class Alert implements AlertUseCase {
         delay: 900000
       };
 
-      await this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
+      this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
 
-      await this.persistanceRepo.storeAlert(pagerEvent); // we are keeping the alert in our storage for later analysis
+      this.persistanceRepo.storeAlert(pagerEvent); // we are keeping the alert in our storage for later analysis
 
       return { id: alert.id, processed: true };
     }
