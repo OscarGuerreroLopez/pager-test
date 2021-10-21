@@ -56,14 +56,14 @@ abstract class Alert implements AlertUseCase {
       };
     }
 
+    // little dummy validation that perhaps is not necessary cause typescript
+    const verifiedAlert = VerifyAlert(alert);
+
     // here we get the escalation policy for this particular service
     // this is an external service or adapter that gets injected into this use case
     const escalation = await this.escalationAdapter.getEscalation(
       alert.serviceId
     );
-
-    // little dummy validation that perhaps is not necessary cause typescript
-    const verifiedAlert = VerifyAlert(alert);
 
     // make sure there are targets
     const areThereTargets = escalation.levels[0] && escalation.levels[0].target;

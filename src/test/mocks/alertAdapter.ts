@@ -11,7 +11,15 @@ import { AlertPort } from "../../pager-service/alert/entities/interfaces";
 
 class AlertingAdapter extends AlertUseCase implements AlertPort {
   async processNewAlert(alert: Alert): Promise<ProcessedAlert> {
-    return await this.newAlert(alert);
+    try {
+      return await this.newAlert(alert);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message || "");
+      }
+
+      throw error;
+    }
   }
 }
 

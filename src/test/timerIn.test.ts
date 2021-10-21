@@ -53,7 +53,7 @@ describe("TimerInUseCase", () => {
     | jest.Mock<any, any>
     | jest.SpyInstance<Promise<boolean>, [timer: TimerEvent]>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     spy = jest.fn();
     spy = jest.spyOn(timerInUseCase, "processTimerEvent");
     spyMail = jest.fn();
