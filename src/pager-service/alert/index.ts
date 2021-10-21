@@ -12,7 +12,7 @@ import { ID } from "../../pager-service/utils";
 import { MailSender, SmsSender } from "../common";
 import { VerifyAlert } from "./verifyAlert";
 
-abstract class Alert implements AlertUseCase {
+class Alert implements AlertUseCase {
   protected id: ID;
   protected escalationAdapter: EscalationPort;
   protected mailAdapter: MailPort;
@@ -99,9 +99,8 @@ abstract class Alert implements AlertUseCase {
         delay: 900000
       };
 
+      await this.persistanceRepo.storeAlert(pagerEvent); // we are keeping the alert in our storage for later analysis
       this.timerAdapter.sendTimer(timer); // we send the alert to the timer service and that services decides what to do
-
-      this.persistanceRepo.storeAlert(pagerEvent); // we are keeping the alert in our storage for later analysis
 
       return { id: alert.id, processed: true };
     }
